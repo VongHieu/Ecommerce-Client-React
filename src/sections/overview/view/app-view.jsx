@@ -2,10 +2,10 @@ import { faker } from '@faker-js/faker';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
 
 import Iconify from 'src/components/iconify';
 
+import Carousel from 'src/components/Carousel';
 import AppTasks from '../app-tasks';
 import AppNewsUpdate from '../app-news-update';
 import AppOrderTimeline from '../app-order-timeline';
@@ -20,11 +20,8 @@ import AppConversionRates from '../app-conversion-rates';
 
 export default function AppView() {
   return (
-    <Container maxWidth="xl">
-      <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi, Welcome back 👋
-      </Typography>
-
+    <Container sx={{ maxWidth: '1200px' }}>
+      <Carousel />
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary

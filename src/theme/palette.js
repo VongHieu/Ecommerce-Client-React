@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 import { alpha } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
@@ -24,6 +25,8 @@ export const primary = {
   dark: '#0C44AE',
   darker: '#042174',
   contrastText: '#FFFFFF',
+  red: '#e4222e', //red
+  hover: '#3d2222', //black
 };
 
 export const secondary = {
