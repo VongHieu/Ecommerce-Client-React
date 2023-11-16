@@ -5,7 +5,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 
 import Iconify from 'src/components/iconify';
 
-import Carousel from 'src/components/Carousel';
+import { lazy } from 'react';
 import AppTasks from '../app-tasks';
 import AppNewsUpdate from '../app-news-update';
 import AppOrderTimeline from '../app-order-timeline';
@@ -16,12 +16,15 @@ import AppTrafficBySite from '../app-traffic-by-site';
 import AppCurrentSubject from '../app-current-subject';
 import AppConversionRates from '../app-conversion-rates';
 
+const LazyLoadedSlider = lazy(() => import('src/components/Slider'));
+const LazyLoadedCarousel = lazy(() => import('src/components/Carousel'));
 // ----------------------------------------------------------------------
 
 export default function AppView() {
   return (
     <Container sx={{ maxWidth: '1200px' }}>
-      <Carousel />
+      <LazyLoadedSlider />
+      <LazyLoadedCarousel />
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
