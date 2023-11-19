@@ -73,7 +73,7 @@ const StyleSwiper = styled(Swiper)`
 `;
 
 const StyleSwiperSlide = styled(SwiperSlide)`
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: center;
   border-right: 1px solid #8b8b8b99;
