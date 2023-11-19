@@ -27,6 +27,7 @@ export const primary = {
   contrastText: '#FFFFFF',
   red: '#e4222e', //red
   hover: '#3d2222', //black
+  priceSale: '#82869e',
 };
 
 export const secondary = {
