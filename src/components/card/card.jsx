@@ -12,50 +12,6 @@ import { fNumber } from 'src/utils/format-number';
 import { Link } from 'react-router-dom';
 
 const BAKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const data = [
-  {
-    id: 1,
-    name: 'Thịt heo xịn xòn',
-    price: 200000,
-    image: 'carousel_1.jpg',
-    weight: 0.4,
-  },
-  {
-    id: 2,
-    name: 'Thịt heo xịn xòn',
-    price: 200000,
-    weight: 0.4,
-    image: 'carousel_2.jpg',
-  },
-  {
-    id: 3,
-    name: 'Thịt heo xịn xòn',
-    price: 200000,
-    weight: 0.4,
-    image: 'carousel_3.jpg',
-  },
-  {
-    id: 4,
-    name: 'Thịt heo xịn xòn',
-    price: 200000,
-    weight: 0.4,
-    image: 'carousel_4.jpg',
-  },
-  {
-    id: 5,
-    name: 'Thịt heo xịn xòn',
-    price: 200000,
-    weight: 0.4,
-    image: 'carousel_4.jpg',
-  },
-  {
-    id: 6,
-    name: 'Thịt heo xịn xòn',
-    price: 200000,
-    weight: 0.4,
-    image: 'carousel_4.jpg',
-  },
-];
 
 const ProductCard = ({ product }) => {
   const handleClickProduct = (id) => {
@@ -69,19 +25,23 @@ const ProductCard = ({ product }) => {
         image={`${BAKEND_URL}images/products${product.avatar}`}
         title={product.name}
       >
-        <Chip
-          label={`${product.discount}%`}
-          sx={{
-            position: 'absolute',
-            top: 20,
-            left: -30,
-            textAlign: 'center',
-            backgroundColor: primary.red,
-            color: 'white',
-            fontSize: '12px',
-          }}
-          size="small"
-        />
+        {product.discount > 0 ? (
+          <Chip
+            label={`${product.discount}%`}
+            sx={{
+              position: 'absolute',
+              top: 20,
+              left: -30,
+              textAlign: 'center',
+              backgroundColor: primary.red,
+              color: 'white',
+              fontSize: '12px',
+            }}
+            size="small"
+          />
+        ) : (
+          ''
+        )}
       </CardMedia>
       <CardContent
         sx={{
@@ -108,15 +68,23 @@ const ProductCard = ({ product }) => {
         </Typography>
       </CardContent>
       <CardContent sx={{ padding: '0 !important', display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Typography variant="normal" fontSize="13px" color={primary.red}>
-          {`${fNumber(product.price)}đ`}
-        </Typography>
-        <Typography
-          variant="normal"
-          sx={{ color: primary.priceSale, fontSize: '13px', textDecoration: 'line-through' }}
-        >
-          {`${fNumber(product.price_sale)}đ`}
-        </Typography>
+        {product.price_sale > 0 ? (
+          <>
+            <Typography variant="normal" fontSize="13px" color={primary.red}>
+              {`${fNumber(product.price_sale)}đ`}
+            </Typography>
+            <Typography
+              variant="normal"
+              sx={{ color: primary.priceSale, fontSize: '13px', textDecoration: 'line-through' }}
+            >
+              {`${fNumber(product.price)}đ`}
+            </Typography>
+          </>
+        ) : (
+          <Typography variant="normal" fontSize="13px" color={primary.red}>
+            {`${fNumber(product.price)}đ`}
+          </Typography>
+        )}
       </CardContent>
       <CardActions>
         <StyleButton>THÊM VÀO GIỎ</StyleButton>
@@ -131,7 +99,7 @@ const ProductCardView = ({ productCa }) => {
   const { products } = useSelector((x) => x.rootReducer.products);
 
   useEffect(() => {
-    dispatch(productAsyncThunk.getProductByProductCategory(productCa));
+    dispatch(productAsyncThunk.getProductByProductCategory());
   }, [dispatch, productCa]);
 
   const productFilter = useMemo(() => {
@@ -219,4 +187,7 @@ const TitleCard = styled(Link)`
   font-size: 24px;
   display: inline-block;
   margin: 10px 0;
+  &:hover {
+    color: #e4222e;
+  }
 `;

@@ -3,8 +3,8 @@ import { productService } from 'src/services/product-service';
 
 const getProductByProductCategory = createAsyncThunk(
   'PRODUCTS_GET_BY_PRODUCT_CATEORY_PRODUCTS',
-  async (id) => {
-    const { data } = await productService.getProductByProductCategory(id);
+  async () => {
+    const { data } = await productService.getProductByProductCategory();
     return data;
   }
 );
