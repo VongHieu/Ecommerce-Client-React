@@ -1,19 +1,12 @@
-/* eslint-disable arrow-body-style */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
-import { Box, CardActions, CardContent, CardMedia, Chip, Tooltip, Typography } from '@mui/material';
+import { CardActions, CardContent, CardMedia, Chip, Tooltip, Typography } from '@mui/material';
 import { primary } from 'src/theme/palette';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useMemo } from 'react';
-import { productAsyncThunk } from 'src/redux/actions/product-action';
 import { fNumber } from 'src/utils/format-number';
-import { Link } from 'react-router-dom';
 
 const BAKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-const ProductCard = ({ product }) => {
+export default function ProductCard({ product }) {
   const handleClickProduct = (id) => {
     console.log(id);
   };
@@ -91,73 +84,11 @@ const ProductCard = ({ product }) => {
       </CardActions>
     </BoxShadowCardItem>
   );
-};
+}
 
-const ProductCardView = ({ productCa }) => {
-  const dispatch = useDispatch();
-  const { productCategories } = useSelector((x) => x.rootReducer.productCategories);
-  const { products } = useSelector((x) => x.rootReducer.products);
-
-  useEffect(() => {
-    dispatch(productAsyncThunk.getProductByProductCategory());
-  }, [dispatch, productCa]);
-
-  const productFilter = useMemo(() => {
-    return products.filter((item) => item.product_category_id === productCa);
-  }, [productCa, products]);
-
-  const productCategoryFilter = useMemo(() => {
-    return productCategories.find((item) => item.id === productCa);
-  }, [productCa, productCategories]);
-
-  return (
-    <Box mb={3}>
-      <TitleCard to={productCategoryFilter?.alias}>{productCategoryFilter?.name}</TitleCard>
-      <Box gap={1} display="flex" flexDirection="column" mb={4}>
-        <StyleCardProduct>
-          {productFilter.map((product, index) => {
-            return product.status && product.home_flag ? (
-              <StyleCardItem key={product.id}>
-                <ProductCard product={product} />
-              </StyleCardItem>
-            ) : (
-              ''
-            );
-          })}
-        </StyleCardProduct>
-      </Box>
-    </Box>
-  );
-};
-
-export default ProductCardView;
-
-ProductCard.propsType = {
+ProductCard.propTypes = {
   product: PropTypes.any,
 };
-
-const StyleCardProduct = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 2px;
-  background-color: white;
-`;
-
-const StyleCardItem = styled.div`
-  background-color: rgb(255, 255, 255);
-  overflow: hidden;
-  border-radius: 0px;
-  border: 1px solid transparent;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  padding: 12px;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  &:hover {
-    box-shadow: rgba(153, 153, 153, 0.6) 0px 0px 6px 0px;
-  }
-`;
 
 const StyleButton = styled.button`
   margin: 0 auto;
@@ -178,16 +109,4 @@ const StyleButton = styled.button`
 const BoxShadowCardItem = styled.div`
   width: 100%;
   height: 100%;
-`;
-
-const TitleCard = styled(Link)`
-  text-decoration: none;
-  color: black;
-  font-weight: bold;
-  font-size: 24px;
-  display: inline-block;
-  margin: 10px 0;
-  &:hover {
-    color: #e4222e;
-  }
 `;

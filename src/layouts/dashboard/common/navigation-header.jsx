@@ -74,7 +74,7 @@ const RenderDropdown = ({ id, isOpen, handleIsOpen }) => {
             width: '100%',
           }}
         >
-          <DropdownItem to={item.alias}>
+          <DropdownItem to={`danh-muc-san-pham/${item.alias}`}>
             <Typography variant="normal" fontSize="13px">
               {item.name}
             </Typography>
@@ -128,7 +128,12 @@ export default function NavigationHeader() {
               <RenderDropdown id={element.id} isOpen={isHovered} handleIsOpen={setIsHovered} />
             </Box>
           ) : (
-            <Button key={element.id} component={RouterLink} href={element.alias} sx={StyleButton}>
+            <Button
+              key={element.id}
+              component={RouterLink}
+              href={element.alias === 'trang-chu' ? '/' : element.alias}
+              sx={StyleButton}
+            >
               {element.name}
             </Button>
           )

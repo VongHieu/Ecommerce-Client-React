@@ -11,9 +11,15 @@ import { Link } from 'react-router-dom';
 const dataCarousel = [
   {
     id: 1,
-    name: 'Thịt heo',
-    url: 'thit-heo',
+    name: 'Premium',
+    url: 'meatdeli-premium',
     image: 'carousel_1.jpg',
+  },
+  {
+    id: 5,
+    name: 'Chuẩn Ngon',
+    url: 'meatdeli-chuan-ngon',
+    image: 'carousel_3.jpg',
   },
   {
     id: 2,
@@ -25,13 +31,13 @@ const dataCarousel = [
     id: 3,
     name: 'Sản phẩm chế biến',
     url: 'san-pham-che-bien',
-    image: 'carousel_3.jpg',
+    image: 'carousel_4.jpg',
   },
   {
     id: 4,
     name: 'Gà tươi ướp xốt',
-    url: 'ga-tuoi-uop-xot',
-    image: 'carousel_4.jpg',
+    url: 'gà-tuoi-uóp-xót-tiẹn-lọi',
+    image: 'carousel_3.jpg',
   },
 ];
 
@@ -40,7 +46,7 @@ const Carousel = () => {
   return (
     <Box height="200px" width="100%" mb={2}>
       <StyleSwiper
-        slidesPerView={!lgUp ? 2 : 4}
+        slidesPerView={!lgUp ? 2 : 5}
         pagination={{
           clickable: true,
         }}
@@ -48,7 +54,7 @@ const Carousel = () => {
         {dataCarousel.map((item) => (
           <StyleSwiperSlide key={item.id}>
             <Box width="50%">
-              <StyleLink to={item.url}>
+              <StyleLink to={`danh-muc-san-pham/${item.url}`}>
                 <Avatar
                   alt={item.name}
                   src={`/assets/images/carousels/${item.image}`}

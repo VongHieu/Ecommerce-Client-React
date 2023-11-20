@@ -1,1 +1,1 @@
-export { default as ProductCardView } from './card';
+export { default as ProductCard } from './card';
