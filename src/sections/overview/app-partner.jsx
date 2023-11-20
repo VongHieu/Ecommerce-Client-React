@@ -58,8 +58,8 @@ const dataPartner = [
 ];
 
 const AppPartner = () => (
-  <Box height="200px" width="100%" mb={2} borderTop="1px solid #b0b0b0">
-    <Typography variant="h3" textAlign="center" mb={2} mt={1}>
+  <Box height="200px" width="100%" mb={16} mt={5} borderTop="1px solid #b0b0b0">
+    <Typography variant="h3" textAlign="center" mb={2} mt={2}>
       CÁC ĐỐI TÁC CỦA MEATDELI
     </Typography>
     <StyleSwiper
