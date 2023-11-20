@@ -1,18 +1,23 @@
 import Container from '@mui/material/Container';
 import { lazy } from 'react';
-import AppCardProduct from '../app-card-product';
+import { useSelector } from 'react-redux';
 
 const LazyLoadedSlider = lazy(() => import('src/components/Slider'));
 const LazyLoadedCarousel = lazy(() => import('src/components/Carousel'));
+const LazyLoadedAppCardProduct = lazy(() => import('../app-card-product'));
+const LazyLoadedAppPartner = lazy(() => import('../app-partner'));
 // ----------------------------------------------------------------------
 
 export default function AppView() {
-  const productCategoryId = 'f6e9ce01-e474-4270-a207-70d88aad9cb7';
+  const { productCategories } = useSelector((x) => x.rootReducer.productCategories);
   return (
     <Container sx={{ maxWidth: '1200px' }}>
       <LazyLoadedSlider />
       <LazyLoadedCarousel />
-      <AppCardProduct productCa={productCategoryId} />
+      {productCategories.map((item) => (
+        <LazyLoadedAppCardProduct productCa={item.id} key={item.id} />
+      ))}
+      <LazyLoadedAppPartner />
     </Container>
   );
 }
