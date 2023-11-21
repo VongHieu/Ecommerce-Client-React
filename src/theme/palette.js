@@ -5,6 +5,17 @@ import { alpha } from '@mui/material/styles';
 
 // SETUP COLORS
 
+export const blue = {
+  100: '#daecff',
+  200: '#b6daff',
+  300: '#66b2ff',
+  400: '#3399ff',
+  500: '#007fff',
+  600: '#0072e5',
+  700: '#0059B2',
+  800: '#004c99',
+};
+
 export const grey = {
   0: '#FFFFFF',
   100: '#F9FAFB',
@@ -28,6 +39,7 @@ export const primary = {
   red: '#e4222e', //red
   hover: '#3d2222', //black
   priceSale: '#82869e',
+  colorPrice: '#666666',
 };
 
 export const secondary = {

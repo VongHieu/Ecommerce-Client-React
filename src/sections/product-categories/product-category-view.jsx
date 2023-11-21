@@ -1,6 +1,3 @@
-/* eslint-disable unused-imports/no-unused-imports */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/self-closing-comp */
 import {
   Box,
   Collapse,
@@ -10,7 +7,6 @@ import {
   Typography,
   styled as MUIStyled,
 } from '@mui/material';
-import styled from 'styled-components';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -18,7 +14,6 @@ import Iconify from 'src/components/iconify';
 import { useRouter } from 'src/routes/hooks';
 import { primary } from 'src/theme/palette';
 import { ProductCard } from 'src/components/card';
-import { shadows } from 'src/theme/shadows';
 import { productAsyncThunk } from 'src/redux/actions/product-action';
 import { StyleCardItem, StyleCardProduct } from '../styled';
 
@@ -40,10 +35,6 @@ export default function ProductCategoryView() {
     [products, selectedId]
   );
 
-  const productCategoryFilter = useMemo(
-    () => productCategories.find((item) => item.id === selectedId),
-    [selectedId, productCategories]
-  );
   const handleClick = () => {
     setOpen(!open);
   };
