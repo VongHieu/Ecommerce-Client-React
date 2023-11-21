@@ -12,6 +12,7 @@ export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const ProductCategoryPage = lazy(() =>
   import('src/pages/product-categories/product-category')
 );
+export const ProductDetailPage = lazy(() => import('src/pages/product-details/product-detail'));
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +32,7 @@ export default function Router() {
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
         { path: 'danh-muc-san-pham/:alias', element: <ProductCategoryPage /> },
+        { path: 'san-pham/:alias', element: <ProductDetailPage /> },
       ],
     },
     {

@@ -5,9 +5,9 @@ import { Box, Stack, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import youtubeLogo from '/public/assets/images/socials/youtube-fill.svg';
-import facebookLogo from '/public/assets/images/socials/sharp-facebook.svg';
-import zaloLogo from '/public/assets/images/socials/zalo.svg';
+import youtubeLogo from '/assets/images/socials/youtube-fill.svg';
+import facebookLogo from '/assets/images/socials/sharp-facebook.svg';
+import zaloLogo from '/assets/images/socials/zalo.svg';
 
 const dataAboutUs = [
   {

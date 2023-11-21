@@ -3,16 +3,23 @@ import { primary } from 'src/theme/palette';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { fNumber } from 'src/utils/format-number';
+import { useRouter } from 'src/routes/hooks';
 
 const BAKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function ProductCard({ product }) {
-  const handleClickProduct = (id) => {
-    console.log(id);
+  const router = useRouter();
+  const handleClickProduct = (alias) => {
+    router.push(`/san-pham/${alias}`);
+  };
+
+  const handleChooseProduct = (e) => {
+    e.stopPropagation();
+    
   };
 
   return (
-    <BoxShadowCardItem onClick={() => handleClickProduct(product.id)}>
+    <BoxShadowCardItem onClick={() => handleClickProduct(product.alias)}>
       <CardMedia
         sx={{ height: 145, width: 145, margin: '0 auto', mb: 0.5, position: 'relative' }}
         image={`${BAKEND_URL}images/products${product.avatar}`}
@@ -80,7 +87,9 @@ export default function ProductCard({ product }) {
         )}
       </CardContent>
       <CardActions>
-        <StyleButton>THÊM VÀO GIỎ</StyleButton>
+        <StyleButton type="button" onClick={(e) => handleChooseProduct(e)}>
+          THÊM VÀO GIỎ
+        </StyleButton>
       </CardActions>
     </BoxShadowCardItem>
   );

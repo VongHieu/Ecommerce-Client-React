@@ -22,6 +22,7 @@ import { fToNow } from 'src/utils/format-time';
 
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
+import { primary } from 'src/theme/palette';
 
 // ----------------------------------------------------------------------
 
@@ -100,8 +101,8 @@ export default function NotificationsPopover() {
   return (
     <>
       <IconButton color={open ? 'primary' : 'default'} onClick={handleOpen}>
-        <Badge badgeContent={totalUnRead} color="error">
-          <Iconify width={24} icon="solar:bell-bing-bold-duotone" />
+        <Badge badgeContent={totalUnRead} color="success">
+          <Iconify width={24} icon="solar:cart-3-bold" sx={{ color: primary.red }} />
         </Badge>
       </IconButton>
 
