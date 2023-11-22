@@ -15,10 +15,13 @@ export default function HomeView() {
   const dispatch = useDispatch();
   const { productCategories } = useSelector((x) => x.productCategories);
   const { message, success, loading } = useSelector((x) => x.carts);
-  useEffect(() => () => dispatch(cartActionThunk.cleanMessage()), [dispatch]);
+  useEffect(() => () => dispatch(cartActionThunk.cleanMessage()), []);
 
   useEffect(() => {
-    if (message !== null) Toastify(message, success);
+    if (!loading && message !== null) {
+      Toastify(message, success);
+      dispatch(cartActionThunk.cleanMessage());
+    }
   }, [message, loading]);
 
   return (

@@ -9,6 +9,7 @@ export const LoginPage = lazy(() => import('src/pages/login'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const ProductCategoryPage = lazy(() => import('src/pages/product-category'));
 export const ProductDetailPage = lazy(() => import('src/pages/product-detail'));
+export const CartPage = lazy(() => import('src/pages/cart'));
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +26,7 @@ export default function Router() {
       children: [
         { element: <HomePage />, index: true },
         { path: 'user', element: <UserPage /> },
+        { path: 'gio-hang', element: <CartPage /> },
         { path: 'danh-muc-san-pham/:alias', element: <ProductCategoryPage /> },
         { path: 'san-pham/:alias', element: <ProductDetailPage /> },
       ],

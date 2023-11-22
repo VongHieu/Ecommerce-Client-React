@@ -27,7 +27,7 @@ const StyleButton = {
 
 const RenderDropdown = ({ id, isOpen, handleIsOpen }) => {
   const dispatch = useDispatch();
-const { productCategories } = useSelector((x) => x.productCategories);
+  const { productCategories } = useSelector((x) => x.productCategories);
   const [onfocus, setOnfocus] = useState(false);
   const styleShadow = customShadows();
 
@@ -94,9 +94,9 @@ export default function NavigationHeader() {
     setIsHovered(true);
   };
 
-  // const handleMouseLeave = () => {
-  //   setIsHovered(false);
-  // };
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   useEffect(() => {
     dispatch(categoryActionThunk.getAllCategories());
@@ -120,7 +120,7 @@ export default function NavigationHeader() {
                 href={element.alias}
                 sx={StyleButton}
                 onMouseEnter={handleMouseEnter}
-                // onMouseLeave={handleMouseLeave}
+                onMouseLeave={handleMouseLeave}
                 endIcon={<Iconify rotate={isHovered ? 0 : 3} icon="gridicons:dropdown" />}
               >
                 {element.name}

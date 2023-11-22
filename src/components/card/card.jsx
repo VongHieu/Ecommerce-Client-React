@@ -28,7 +28,11 @@ export default function ProductCard({ product }) {
 
   const handleChooseProduct = (e) => {
     e.stopPropagation();
-    dispatch(cartActionThunk.addProductCart(product));
+    const param = {
+      ...product,
+      quantity: 1,
+    };
+    dispatch(cartActionThunk.addProductCart(param));
   };
 
   return (

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-danger */
 /* eslint-disable arrow-body-style */
 import { Box, Button, Container, Typography, styled as MUIStyled, Stack } from '@mui/material';
@@ -5,7 +6,11 @@ import { primary } from 'src/theme/palette';
 import Iconify from 'src/components/iconify';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { fNumber } from 'src/utils/format-number';
+import { cartActionThunk } from 'src/redux/actions/cart-action';
+import { Toastify } from 'src/utils/format-toast';
 import QuantityInput from '../product-input-stock';
 import ProductRelative from '../product-relative';
 
@@ -32,6 +37,26 @@ InfoProduct.propTypes = {
 };
 
 export default function ProductDetailView({ productFilter }) {
+  const [quantity, setQuantity] = useState(0);
+  const dispatch = useDispatch();
+  const { message, success, loading } = useSelector((x) => x.carts);
+
+  useEffect(() => () => dispatch(cartActionThunk.cleanMessage()), []);
+
+  useEffect(() => {
+    if (!loading && message !== null) {
+      Toastify(message, success);
+      dispatch(cartActionThunk.cleanMessage());
+    }
+  }, [message, loading]);
+
+  const handleAddProductToCart = () => {
+    const param = {
+      ...productFilter,
+      quantity,
+    };
+    dispatch(cartActionThunk.addProductCart(param));
+  };
   const renderPrice = (
     <Box display="flex" alignItems="center">
       <ProductTitle $color={primary.colorPrice} $width={25}>
@@ -74,7 +99,7 @@ export default function ProductDetailView({ productFilter }) {
       <ProductTitle $color={primary.colorPrice} $width={25}>
         Số lượng
       </ProductTitle>
-      <QuantityInput />
+      <QuantityInput setValue={setQuantity} />
     </Box>
   );
 
@@ -135,7 +160,7 @@ export default function ProductDetailView({ productFilter }) {
           </Box>
 
           <Box px="10px" pt="55px">
-            <StyledButton padding={defaultPaddingButtonAdd}>
+            <StyledButton padding={defaultPaddingButtonAdd} onClick={handleAddProductToCart}>
               <Iconify icon="bx:cart-add" />
               <Typography variant="normal" fontSize={14}>
                 THÊM VÀO GIỎ
