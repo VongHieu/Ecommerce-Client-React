@@ -27,7 +27,7 @@ const StyleButton = {
 
 const RenderDropdown = ({ id, isOpen, handleIsOpen }) => {
   const dispatch = useDispatch();
-  const { productCategories } = useSelector((x) => x.rootReducer.productCategories);
+const { productCategories } = useSelector((x) => x.productCategories);
   const [onfocus, setOnfocus] = useState(false);
   const styleShadow = customShadows();
 
@@ -87,7 +87,7 @@ const RenderDropdown = ({ id, isOpen, handleIsOpen }) => {
 
 export default function NavigationHeader() {
   const dispatch = useDispatch();
-  const { categories } = useSelector((x) => x.rootReducer.categories);
+  const { categories } = useSelector((x) => x.categories);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {

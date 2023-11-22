@@ -23,8 +23,8 @@ export default function ProductCategoryView() {
   const [selectedId, setSelectedId] = useState(null);
   const dispatch = useDispatch();
   const router = useRouter();
-  const { productCategories } = useSelector((x) => x.rootReducer.productCategories);
-  const { products } = useSelector((x) => x.rootReducer.products);
+  const { productCategories } = useSelector((x) => x.productCategories);
+  const { products } = useSelector((x) => x.products);
 
   useEffect(() => {
     dispatch(productAsyncThunk.getProductByProductCategory());

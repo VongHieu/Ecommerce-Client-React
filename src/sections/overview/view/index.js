@@ -1,1 +1,1 @@
-export { default as AppView } from './app-view';
+export { default as HomeView } from './home-view';

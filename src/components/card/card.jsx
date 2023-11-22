@@ -1,21 +1,34 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { CardActions, CardContent, CardMedia, Chip, Tooltip, Typography } from '@mui/material';
 import { primary } from 'src/theme/palette';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { fNumber } from 'src/utils/format-number';
+import { cartActionThunk } from 'src/redux/actions/cart-action';
 import { useRouter } from 'src/routes/hooks';
+import Iconify from '../iconify';
 
 const BAKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
 export default function ProductCard({ product }) {
+  const [selected, setSelected] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { cart } = useSelector((x) => x.carts);
+
   const handleClickProduct = (alias) => {
     router.push(`/san-pham/${alias}`);
   };
 
+  useEffect(() => {
+    const selectedProduct = cart.find((item) => item.id === product.id);
+    if (selectedProduct) setSelected(true);
+  }, [cart]);
+
   const handleChooseProduct = (e) => {
     e.stopPropagation();
-    
+    dispatch(cartActionThunk.addProductCart(product));
   };
 
   return (
@@ -71,13 +84,13 @@ export default function ProductCard({ product }) {
         {product.price_sale > 0 ? (
           <>
             <Typography variant="normal" fontSize="13px" color={primary.red}>
-              {`${fNumber(product.price_sale)}đ`}
+              {`${fNumber(product.price_sale)} ₫`}
             </Typography>
             <Typography
               variant="normal"
               sx={{ color: primary.priceSale, fontSize: '13px', textDecoration: 'line-through' }}
             >
-              {`${fNumber(product.price)}đ`}
+              {`${fNumber(product.price)} ₫`}
             </Typography>
           </>
         ) : (
@@ -88,7 +101,18 @@ export default function ProductCard({ product }) {
       </CardContent>
       <CardActions>
         <StyleButton type="button" onClick={(e) => handleChooseProduct(e)}>
-          THÊM VÀO GIỎ
+          {!selected ? (
+            <>
+              <Iconify icon="tdesign:cart-add" width={15} />
+              <Typography variant="normal" fontSize={14}>
+                Thêm vào giỏ
+              </Typography>
+            </>
+          ) : (
+            <Typography variant="normal" fontSize={14}>
+              Đã chọn
+            </Typography>
+          )}
         </StyleButton>
       </CardActions>
     </BoxShadowCardItem>
@@ -101,6 +125,10 @@ ProductCard.propTypes = {
 
 const StyleButton = styled.button`
   margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   width: 100%;
   font-size: 13px;
   border: 1px solid #e4222e;

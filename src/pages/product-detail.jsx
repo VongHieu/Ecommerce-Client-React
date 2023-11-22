@@ -9,7 +9,7 @@ import { ProductDetailView } from 'src/sections/products/view';
 export default function ProductDetailPage() {
   const dispatch = useDispatch();
   const { alias } = useParams();
-  const { products } = useSelector((x) => x.rootReducer.products);
+  const { products } = useSelector((x) => x.products);
 
   useEffect(() => {
     dispatch(productAsyncThunk.getProductByProductCategory());
