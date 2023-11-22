@@ -54,7 +54,7 @@ const ListProductItem = ({ product }) => (
       </Typography>
       <StockPrice>
         <Typography variant="normal" fontSize={12}>
-          x1
+          {`x${product.quantity}`}
         </Typography>
         <Typography variant="normal" fontSize={12} color={primary.red} fontWeight="bold">
           {`${product.discount > 0 ? fNumber(product.price_sale) : fNumber(product.price)} ₫`}
@@ -89,6 +89,7 @@ export default function CartPopover() {
 
   const hanldeDetailCart = () => {
     router.push('/gio-hang');
+    setOpen(null);
   };
 
   return (

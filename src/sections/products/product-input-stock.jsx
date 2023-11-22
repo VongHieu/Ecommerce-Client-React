@@ -1,11 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-expressions */
 import { Box } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Iconify from 'src/components/iconify';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-export default function QuantityInput() {
-  const [quantity, setQuantity] = useState(1);
+export default function QuantityInput({ setValue, quantitySel = 1 }) {
+  const [quantity, setQuantity] = useState(quantitySel);
 
   const handleRemoveQuantity = () => {
     quantity > 1 && setQuantity(quantity - 1);
@@ -14,6 +16,10 @@ export default function QuantityInput() {
   const handlePlusQuantity = () => {
     quantity < 100 && setQuantity(quantity + 1);
   };
+
+  useEffect(() => {
+    setValue(quantity);
+  }, [quantity]);
 
   return (
     <Box display="flex" alignItems="center">
@@ -60,3 +66,8 @@ const StyleButton = styled.button`
   align-items: center;
   justify-content: center;
 `;
+
+QuantityInput.propTypes = {
+  setValue: PropTypes.any,
+  quantitySel: PropTypes.number,
+};
