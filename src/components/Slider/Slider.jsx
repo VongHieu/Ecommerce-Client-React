@@ -26,7 +26,7 @@ const ArrowButton = () => (
 
 const Slider = () => {
   const dispatch = useDispatch();
-  const { slides } = useSelector((x) => x.rootReducer.slides);
+  const { slides } = useSelector((x) => x.slides);
 
   useEffect(() => {
     dispatch(slideActionThunk.getAllSildes());

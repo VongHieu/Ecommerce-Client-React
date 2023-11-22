@@ -18,6 +18,10 @@ export function fPercent(number) {
   return result(format, '.0');
 }
 
+export function fRounding(number) {
+  return number ? numeral(number).format('0,0') : '';
+}
+
 export function fShortenNumber(number) {
   const format = number ? numeral(number).format('0.00a') : '';
 

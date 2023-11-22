@@ -6,7 +6,7 @@ import { ProductCard } from 'src/components/card';
 import { StyleCardItem, StyleCardProduct } from '../styled';
 
 export default function ProductRelative({ product }) {
-  const { products } = useSelector((x) => x.rootReducer.products);
+  const { products } = useSelector((x) => x.products);
 
   const productFilter = products
     .filter(

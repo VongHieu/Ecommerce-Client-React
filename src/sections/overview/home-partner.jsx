@@ -57,7 +57,7 @@ const dataPartner = [
   },
 ];
 
-const AppPartner = () => (
+const HomePartner = () => (
   <Box height="200px" width="100%" mb={16} mt={5} borderTop="1px solid #b0b0b0">
     <Typography variant="h3" textAlign="center" mb={2} mt={2}>
       CÁC ĐỐI TÁC CỦA MEATDELI
@@ -83,7 +83,7 @@ const AppPartner = () => (
   </Box>
 );
 
-export default AppPartner;
+export default HomePartner;
 
 const StyleImg = styled.img`
   width: 100%;

@@ -8,10 +8,10 @@ import { Link } from 'react-router-dom';
 import { ProductCard } from 'src/components/card';
 import { StyleCardItem, StyleCardProduct } from '../styled';
 
-export default function ProductCardView({ productCa }) {
+export default function HomeContainerCard({ productCa }) {
   const dispatch = useDispatch();
-  const { productCategories } = useSelector((x) => x.rootReducer.productCategories);
-  const { products } = useSelector((x) => x.rootReducer.products);
+  const { productCategories } = useSelector((x) => x.productCategories);
+  const { products } = useSelector((x) => x.products);
 
   useEffect(() => {
     dispatch(productAsyncThunk.getProductByProductCategory());
@@ -29,8 +29,8 @@ export default function ProductCardView({ productCa }) {
 
   return (
     <Box mb={3}>
-      <TitleCard to={`danh-muc-san-pham/${productCategoryFilter?.alias}`}>
-        {productCategoryFilter?.name}
+      <TitleCard to={`danh-muc-san-pham/${productCategoryFilter.alias}`}>
+        {productCategoryFilter.name}
       </TitleCard>
       <Box gap={1} display="flex" flexDirection="column" mb={4}>
         <StyleCardProduct $number={5}>
@@ -49,7 +49,7 @@ export default function ProductCardView({ productCa }) {
   );
 }
 
-ProductCardView.propTypes = {
+HomeContainerCard.propTypes = {
   productCa: PropTypes.string,
 };
 
