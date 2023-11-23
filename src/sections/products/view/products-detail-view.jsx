@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-danger */
 /* eslint-disable arrow-body-style */
@@ -13,10 +14,11 @@ import { cartActionThunk } from 'src/redux/actions/cart-action';
 import { Toastify } from 'src/utils/format-toast';
 import QuantityInput from '../product-input-stock';
 import ProductRelative from '../product-relative';
+import ProductGallery from '../product-gallery';
 
 const defaultPaddingButtonAdd = '8px 22px';
 const defaultPaddingButtonWeight = '6px 16px';
-const BACKEND_URI = import.meta.env.VITE_BACKEND_URL;
+// const BACKEND_URI = import.meta.env.VITE_BACKEND_URL;
 
 const InfoProduct = ({ title, detail }) => {
   return (
@@ -40,7 +42,7 @@ export default function ProductDetailView({ productFilter }) {
   const [quantity, setQuantity] = useState(0);
   const dispatch = useDispatch();
   const { message, success, loading } = useSelector((x) => x.carts);
-
+  const [gallery, setGallery] = useState(productFilter.avatar);
   useEffect(() => () => dispatch(cartActionThunk.cleanMessage()), []);
 
   useEffect(() => {
@@ -129,14 +131,13 @@ export default function ProductDetailView({ productFilter }) {
 
   return (
     <Container sx={{ maxWidth: '1200px', position: 'relative', p: '0 !important' }}>
-      <Box display="flex" flexWrap="wrap" alignItems="flex-start" gap={3}>
+      <Box display="flex" flexWrap="wrap" alignItems="flex-start" gap={3} mb={5}>
         <ProductImage>
-          <Box>
-            <img
-              alt={productFilter.name}
-              src={`${BACKEND_URI}images/products${productFilter.avatar}`}
-            />
-          </Box>
+          <ProductGallery
+            thumbnails={productFilter.thumnails}
+            avatar={productFilter.avatar}
+            setGallery={setGallery}
+          />
         </ProductImage>
         <ProductInfo>
           <Typography variant="normal" fontSize={22}>
