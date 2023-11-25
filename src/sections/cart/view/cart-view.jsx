@@ -145,7 +145,7 @@ export default function CartView() {
                 (Giá đã bao gồm VAT)
               </Typography>
             </Stack>
-            <StyledButton fullWidth>
+            <StyledButton fullWidth onClick={() => router.push('/thanh-toan')}>
               <Typography variant="normal" fontSize={13} lineHeight={1.2}>
                 THANH TOÁN
               </Typography>

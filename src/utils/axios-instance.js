@@ -20,7 +20,6 @@ export const callApi = async (path, method, headers, body) => {
       method,
       headers,
       data: body,
-      withCredentials: true,
     });
     const { data, status } = resp;
     return { data, status };

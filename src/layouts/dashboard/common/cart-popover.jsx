@@ -20,10 +20,20 @@ import {
   Stack,
   Typography,
   styled as MUIStyled,
+  createTheme,
+  ThemeProvider,
 } from '@mui/material';
 import { useRouter } from 'src/routes/hooks';
 
 const BAKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+const themes = createTheme({
+  palette: {
+    primary: {
+      main: primary.red,
+    },
+  },
+});
 
 const ListProductItem = ({ product }) => (
   <Box
@@ -93,9 +103,9 @@ export default function CartPopover() {
   };
 
   return (
-    <>
+    <ThemeProvider theme={themes}>
       <IconButton color={open ? 'primary' : 'default'} onClick={handleOpen}>
-        <Badge badgeContent={count} color="success">
+        <Badge badgeContent={count} color="primary">
           <Iconify width={24} icon="solar:cart-3-bold" sx={{ color: primary.red }} />
         </Badge>
       </IconButton>
@@ -149,7 +159,7 @@ export default function CartPopover() {
           </StyledButton>
         </Box>
       </Popover>
-    </>
+    </ThemeProvider>
   );
 }
 
