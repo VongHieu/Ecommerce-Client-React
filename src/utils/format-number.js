@@ -39,3 +39,7 @@ function result(format, key = '.00') {
 
   return isInteger ? format.replace(key, '') : format;
 }
+
+export function fChangeNumber(numberString) {
+  return numeral(numberString).value();
+}

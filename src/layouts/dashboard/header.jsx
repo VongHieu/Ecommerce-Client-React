@@ -15,9 +15,9 @@ import Iconify from 'src/components/iconify';
 import { HEADER } from './config-layout';
 import Searchbar from './common/searchbar';
 import AccountPopover from './common/account-popover';
-import LanguagePopover from './common/language-popover';
 import CartPopover from './common/cart-popover';
 import NavigationHeader from './common/navigation-header';
+import CityAddress from './common/city-address';
 
 // ----------------------------------------------------------------------
 
@@ -40,8 +40,8 @@ export default function Header({ onOpenNav }) {
 
       <Box sx={{ flexGrow: 1 }} />
 
+      <CityAddress />
       <Stack direction="row" alignItems="center" spacing={1}>
-        <LanguagePopover />
         <CartPopover />
         <AccountPopover />
       </Stack>
