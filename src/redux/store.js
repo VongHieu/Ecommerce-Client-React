@@ -7,11 +7,12 @@ import sliderReducer from './reducers/slider-reducer';
 import productCategoryReducer from './reducers/product-category-reducer';
 import productReducer from './reducers/product-reducer';
 import cartReducer from './reducers/cart-reducer';
+import userReducer from './reducers/user-reducer';
 
 const rootPersistConfig = {
   key: 'root',
   storage,
-  blacklist: ['carts'],
+  blacklist: ['carts', 'user'],
 };
 
 const cartPersistConfig = {
@@ -21,11 +22,19 @@ const cartPersistConfig = {
   blacklist: ['loading', 'message', 'success', 'error'],
 };
 
+const userPersistConfig = {
+  key: 'user',
+  storage,
+  whitelist: ['user'],
+  blacklist: ['loading', 'message', 'success', 'error'],
+};
+
 const rootReducer = combineReducers({
   categories: categorySliceReducer,
   slides: sliderReducer,
   productCategories: productCategoryReducer,
   products: productReducer,
+  user: persistReducer(userPersistConfig, userReducer),
   carts: persistReducer(cartPersistConfig, cartReducer),
 });
 

@@ -1,4 +1,11 @@
-import { format, formatDistanceToNow, getTime, setDay, setHours, startOfWeek } from 'date-fns';
+import {
+  format,
+  formatDistanceToNow,
+  getTime,
+  setDay,
+  setHours,
+  startOfWeek,
+} from 'date-fns';
 
 export const nameDaysOfWeek = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
 
@@ -34,6 +41,10 @@ export function fDateTime(date, newFormat) {
 
 export function fTimestamp(date) {
   return date ? getTime(new Date(date)) : '';
+}
+
+export function fGetDateOnly(date) {
+  return date ? format(date, 'yyyy-MM-dd') : '';
 }
 
 export function fToNow(date) {

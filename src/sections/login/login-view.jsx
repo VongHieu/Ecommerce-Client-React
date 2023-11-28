@@ -1,77 +1,92 @@
-import { useState } from 'react';
-
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { alpha, useTheme } from '@mui/material/styles';
-import InputAdornment from '@mui/material/InputAdornment';
-
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react';
 import { useRouter } from 'src/routes/hooks';
+import { Controller, useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { LoadingButton } from '@mui/lab';
+import {
+  Box,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+  styled as MUIStyled,
+  useTheme,
+  Card,
+  alpha,
+} from '@mui/material';
 
 import { bgGradient } from 'src/theme/css';
-
-import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
+import Logo from 'src/components/logo';
+import { primary } from 'src/theme/palette';
+import { useDispatch, useSelector } from 'react-redux';
+import { UserActionThunk } from 'src/redux/actions/user-action';
+import { Toastify } from 'src/utils/format-toast';
 
-// ----------------------------------------------------------------------
+const fontSize = {
+  fontSize: 13,
+};
+
+const defaultValues = {
+  phone_number: '',
+  password: '',
+};
+
+const schema = yup
+  .object()
+  .shape({
+    phone_number: yup
+      .string()
+      .required('Vui lòng nhập số điện thoại')
+      .matches(/^0\d{9}$/, 'Số điện thoại không hợp lệ'),
+    password: yup.string().required('Vui lòng nhập mật khẩu'),
+  })
+  .required();
 
 export default function LoginView() {
-  const theme = useTheme();
-
-  const router = useRouter();
-
   const [showPassword, setShowPassword] = useState(false);
+  const theme = useTheme();
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { user, message, success, loading } = useSelector((x) => x.user);
+
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    mode: 'onBlur',
+    resolver: yupResolver(schema),
+    defaultValues,
+  });
+
+  const submitFormLogin = () => {
+    const param = getValues();
+    dispatch(UserActionThunk.loginUser(param));
+  };
 
   const handleClick = () => {
     router.push('/dashboard');
   };
 
-  const renderForm = (
-    <>
-      <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
+  useEffect(() => () => dispatch(UserActionThunk.cleanMessage()), []);
 
-        <TextField
-          name="password"
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Stack>
-
-      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
-        </Link>
-      </Stack>
-
-      <LoadingButton
-        fullWidth
-        size="large"
-        type="submit"
-        variant="contained"
-        color="inherit"
-        onClick={handleClick}
-      >
-        Login
-      </LoadingButton>
-    </>
-  );
+  useEffect(() => {
+    if (success && !loading) {
+      Toastify(message, success);
+    }
+    if (success && user) {
+      setTimeout(() => {
+        router.push('/');
+      }, 2500);
+    }
+  }, [loading, message, success]);
 
   return (
     <Box
@@ -83,72 +98,124 @@ export default function LoginView() {
         height: 1,
       }}
     >
-      <Logo
-        sx={{
-          position: 'fixed',
-          top: { xs: 16, md: 24 },
-          left: { xs: 16, md: 24 },
-        }}
-      />
-
       <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
         <Card
           sx={{
             p: 5,
             width: 1,
             maxWidth: 420,
+            borderRadius: 0,
+            height: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 2,
           }}
         >
-          <Typography variant="h4">Sign in to Minimal</Typography>
-
-          <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
-            Don’t have an account?
-            <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-              Get started
-            </Link>
+          <Logo sx={{ width: 220 }} />
+          <Typography variant="normal" fontSize={24}>
+            Đăng nhập
           </Typography>
+          <Box width={1}>
+            <form id="form" onSubmit={handleSubmit(submitFormLogin)}>
+              <Stack spacing={3} mt={5}>
+                <Controller
+                  name="phone_number"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      variant="outlined"
+                      label="Số điện thoại"
+                      size="medium"
+                      required
+                      error={!!errors.phone_number}
+                      helperText={errors.phone_number?.message}
+                      inputProps={{ style: fontSize }}
+                      InputLabelProps={{ style: fontSize }}
+                    />
+                  )}
+                />
+                <Controller
+                  name="password"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      variant="outlined"
+                      type={showPassword ? 'text' : 'password'}
+                      label="Mật khẩu"
+                      size="medium"
+                      required
+                      error={!!errors.password}
+                      helperText={errors.password?.message}
+                      inputProps={{ style: fontSize }}
+                      InputLabelProps={{ style: fontSize }}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                              <Iconify
+                                sx={{ color: primary.hover }}
+                                icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'}
+                              />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  )}
+                />
+              </Stack>
 
-          <Stack direction="row" spacing={2}>
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:google-fill" color="#DF3E30" />
-            </Button>
+              <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
+                <ForgotPassword to="/forgot-password">Quên mật khẩu?</ForgotPassword>
+              </Stack>
 
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:facebook-fill" color="#1877F2" />
-            </Button>
-
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:twitter-fill" color="#1C9CEA" />
-            </Button>
-          </Stack>
-
-          <Divider sx={{ my: 3 }}>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              OR
-            </Typography>
-          </Divider>
-
-          {renderForm}
+              <Stack direction="column" alignItems="center" justifyContent="center" gap={2}>
+                <StyledButton
+                  fullWidth
+                  size="medium"
+                  type="submit"
+                  padding="10px 0"
+                  disabled={isSubmitting}
+                >
+                  Đăng nhập
+                </StyledButton>
+                <StyledButton
+                  fullWidth
+                  size="medium"
+                  padding="10px 0"
+                  type="button"
+                  onClick={handleClick}
+                >
+                  Đăng ký
+                </StyledButton>
+              </Stack>
+            </form>
+          </Box>
         </Card>
       </Stack>
     </Box>
   );
 }
+
+const ForgotPassword = styled(Link)`
+  text-decoration: none;
+  font-size: 14px;
+  color: ${primary.red};
+`;
+
+const StyledButton = MUIStyled(LoadingButton)(({ theme, padding }) => ({
+  backgroundColor: primary.red,
+  display: 'flex',
+  gap: 6,
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: theme.palette.background.paper,
+  borderRadius: 2,
+  padding: `${padding}`,
+  '&:hover': {
+    backgroundColor: primary.red,
+  },
+}));
