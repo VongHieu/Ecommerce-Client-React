@@ -146,6 +146,7 @@ export default function ModalAddress({ open, handleClose }) {
               <Autocomplete
                 disablePortal
                 id="combox-city"
+                noOptionsText="loading..."
                 value={valueCityConfig?.description || null}
                 onChange={handleOnChangecityConfig}
                 onOpen={handleOpenCityConfig}
@@ -172,6 +173,7 @@ export default function ModalAddress({ open, handleClose }) {
               </Typography>
               <Autocomplete
                 disablePortal
+                noOptionsText="loading..."
                 value={valueDistrictConfig?.description || null}
                 id="combox-district"
                 onChange={handleOnchangeDistrictConfig}
@@ -200,6 +202,7 @@ export default function ModalAddress({ open, handleClose }) {
               </Typography>
               <Autocomplete
                 disablePortal
+                noOptionsText="loading..."
                 value={valueWardConfig?.description || null}
                 onOpen={handleOpenWardConfig}
                 onChange={handleOnchangeWardConfig}

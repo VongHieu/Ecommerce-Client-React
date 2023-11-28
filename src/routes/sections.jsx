@@ -11,6 +11,7 @@ export const ProductCategoryPage = lazy(() => import('src/pages/product-category
 export const ProductDetailPage = lazy(() => import('src/pages/product-detail'));
 export const CartPage = lazy(() => import('src/pages/cart'));
 export const CheckoutPage = lazy(() => import('src/pages/checkout'));
+export const ProfilePage = lazy(() => import('src/pages/profile'));
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +32,7 @@ export default function Router() {
         { path: 'danh-muc-san-pham/:alias', element: <ProductCategoryPage /> },
         { path: 'san-pham/:alias', element: <ProductDetailPage /> },
         { path: 'thanh-toan', element: <CheckoutPage /> },
+        { path: 'customer/:alias', element: <ProfilePage /> },
       ],
     },
     {
