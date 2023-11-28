@@ -1,4 +1,3 @@
-/* eslint-disable arrow-body-style */
 import { Box, Button, List, ListItemButton, Stack, Typography } from '@mui/material';
 import PropsType from 'prop-types';
 import { useEffect, useState } from 'react';

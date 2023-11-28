@@ -1,4 +1,3 @@
-/* eslint-disable no-return-await */
 import { HEADER_TYPES, METHOS_TYPE, callApi } from 'src/utils/axios-instance';
 
 const URI = 'v1/user/';

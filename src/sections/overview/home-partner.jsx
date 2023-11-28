@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import { Box, Typography } from '@mui/material';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';

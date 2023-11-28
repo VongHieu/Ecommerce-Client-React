@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import Iconify from 'src/components/iconify';
 import styled from 'styled-components';

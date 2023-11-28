@@ -1,7 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/no-danger */
-/* eslint-disable arrow-body-style */
 import { Box, Button, Container, Typography, styled as MUIStyled, Stack } from '@mui/material';
 import { primary } from 'src/theme/palette';
 import Iconify from 'src/components/iconify';
