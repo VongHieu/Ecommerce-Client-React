@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { CardActions, CardContent, CardMedia, Chip, Tooltip, Typography } from '@mui/material';
 import { primary } from 'src/theme/palette';
 import styled from 'styled-components';

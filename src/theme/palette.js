@@ -1,4 +1,3 @@
-/* eslint-disable spaced-comment */
 import { alpha } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------

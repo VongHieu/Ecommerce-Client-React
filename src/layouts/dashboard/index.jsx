@@ -11,7 +11,6 @@ import ScrollTop from './scroll-top';
 // ----------------------------------------------------------------------
 
 export default function DashboardLayout({ children }) {
-  // eslint-disable-next-line no-unused-vars
   const [openNav, setOpenNav] = useState(false);
 
   return (

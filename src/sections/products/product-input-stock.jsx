@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-expressions */
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Iconify from 'src/components/iconify';

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import Container from '@mui/material/Container';
 import { lazy, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

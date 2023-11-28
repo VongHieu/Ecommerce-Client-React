@@ -1,4 +1,3 @@
-/* eslint-disable no-return-await */
 import { callApi, HEADER_TYPES, METHOS_TYPE } from 'src/utils/axios-instance';
 
 const URI = 'v1/category/';

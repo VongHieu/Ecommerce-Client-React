@@ -1,6 +1,3 @@
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Box,
   Container,

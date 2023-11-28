@@ -1,4 +1,3 @@
-/* eslint-disable react/self-closing-comp */
 import { Box, Stack, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';

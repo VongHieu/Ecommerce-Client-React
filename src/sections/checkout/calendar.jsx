@@ -1,7 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-continue */
-
 import { Button, Typography, styled as MUIStyled, Box, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { primary } from 'src/theme/palette';
