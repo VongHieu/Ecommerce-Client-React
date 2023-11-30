@@ -12,6 +12,7 @@ export const ProductDetailPage = lazy(() => import('src/pages/product-detail'));
 export const CartPage = lazy(() => import('src/pages/cart'));
 export const CheckoutPage = lazy(() => import('src/pages/checkout'));
 export const ProfilePage = lazy(() => import('src/pages/profile'));
+export const ChangePasswordPage = lazy(() => import('src/pages/change-password'));
 
 // ----------------------------------------------------------------------
 
@@ -39,13 +40,19 @@ export default function Router() {
       path: 'login',
       element: <LoginPage />,
     },
+    { path: 'forgot-password', element: <ChangePasswordPage /> },
     {
       path: '404',
       element: <Page404 />,
     },
     {
       path: '*',
-      element: <Navigate to="/404" replace />,
+      element: (
+        <Navigate
+          to="/404"
+          replace
+        />
+      ),
     },
   ]);
 
