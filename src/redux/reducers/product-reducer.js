@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { productAsyncThunk } from '../actions/product-action';
 
-const { getProductByProductCategory, getAllProduct } = productAsyncThunk;
+const { getProductByProductCategory, getAllProduct, getAllProductPaging } = productAsyncThunk;
 
 const productSlice = createSlice({
   name: 'PRODUCT',
@@ -39,6 +39,33 @@ const productSlice = createSlice({
         products: action.payload,
       }))
       .addCase(getAllProduct.rejected, (state, action) => ({
+        ...state,
+        loading: false,
+        error: true,
+        message: action.error?.message,
+      }))
+      .addCase(getAllProductPaging.pending, (state) => ({
+        ...state,
+        loading: true,
+      }))
+      .addCase(getAllProductPaging.fulfilled, (state, action) => {
+        console.log(action.payload);
+        const { has_previous, has_next, current_page, page_size, total_count, total_pages, items } = action.payload;
+        return {
+          ...state,
+          loading: false,
+          products: items,
+          has_previous,
+          has_next,
+          current_page,
+          page_size,
+          total_count,
+          total_pages,
+          error: false,
+          message: '',
+        };
+      })
+      .addCase(getAllProductPaging.rejected, (state, action) => ({
         ...state,
         loading: false,
         error: true,

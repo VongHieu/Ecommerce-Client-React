@@ -12,9 +12,12 @@ const addQuantityProductCart = createAsyncThunk('ADD_QUANTITY_PRODUCT_CART', (p)
 
 const removeProductToCart = createAsyncThunk('REMOVE_CART_PRODUCT_CART', (p) => p);
 
+const clearCart = createAsyncThunk('CART_CLEAR_CART', async () => defaultMessage);
+
 export const cartActionThunk = {
   addProductCart,
   cleanMessage,
   addQuantityProductCart,
   removeProductToCart,
+  clearCart,
 };

@@ -18,10 +18,10 @@ import Calendar from '../calendar';
 import DeliveryAddress from '../delivery-address';
 
 const paymentMethods = [
-  { label: 'Tiền mặt (COD)', value: 0, icon: 'cod.png', width: 20 },
+  { label: 'Tiền mặt (COD)', value: 1, icon: 'cod.png', width: 20 },
   {
     label: 'Thanh toán trực tuyến (online)',
-    value: 1,
+    value: 2,
     icon: 'momo-logo.png',
     width: 20,
   },
@@ -36,7 +36,7 @@ const theme = createTheme({
 });
 
 export default function CheckoutView() {
-  const [valuePaymentMethod, setValuePaymentMethod] = useState(0);
+  const [valuePaymentMethod, setValuePaymentMethod] = useState(1);
   const [valueDeliveryDate, setValueDeliveryDate] = useState(new Date());
   const styleShadow = customShadows();
 
@@ -53,7 +53,11 @@ export default function CheckoutView() {
         }}
       >
         <Stack>
-          <Typography variant="normal" fontSize={25} fontWeight={500}>
+          <Typography
+            variant="normal"
+            fontSize={25}
+            fontWeight={500}
+          >
             Thanh toán
           </Typography>
         </Stack>
@@ -66,11 +70,19 @@ export default function CheckoutView() {
             py={1.5}
             borderRadius={4}
           >
-            <Typography variant="normal" fontSize={18} lineHeight="32px" fontWeight={400}>
+            <Typography
+              variant="normal"
+              fontSize={18}
+              lineHeight="32px"
+              fontWeight={400}
+            >
               Phương thức thanh toán
             </Typography>
             <FormControl>
-              <RadioGroup value={valuePaymentMethod} onChange={handleChange}>
+              <RadioGroup
+                value={valuePaymentMethod}
+                onChange={handleChange}
+              >
                 {paymentMethods.map((item) => (
                   <FormControlLabel
                     key={item.value}
@@ -90,7 +102,11 @@ export default function CheckoutView() {
                             width={item.width}
                           />
                         </ListItemIcon>
-                        <Typography variant="normal" fontWeight={400} fontSize={12}>
+                        <Typography
+                          variant="normal"
+                          fontWeight={400}
+                          fontSize={12}
+                        >
                           {item.label}
                         </Typography>
                       </Stack>
@@ -110,7 +126,12 @@ export default function CheckoutView() {
             borderRadius={4}
             mt={2}
           >
-            <Typography variant="normal" fontSize={18} lineHeight="32px" fontWeight={400}>
+            <Typography
+              variant="normal"
+              fontSize={18}
+              lineHeight="32px"
+              fontWeight={400}
+            >
               Phương thức giao hàng
             </Typography>
             <FormControl>
@@ -119,7 +140,11 @@ export default function CheckoutView() {
                   value="0"
                   control={<Radio color="primary" />}
                   label={
-                    <Typography variant="normal" fontWeight={400} fontSize={12}>
+                    <Typography
+                      variant="normal"
+                      fontWeight={400}
+                      fontSize={12}
+                    >
                       Giao hàng tận nơi
                     </Typography>
                   }
@@ -148,7 +173,10 @@ export default function CheckoutView() {
             borderRadius={4}
             mt={2}
           >
-            <DeliveryAddress paymentMethod={valuePaymentMethod} deliveryDate={valueDeliveryDate} />
+            <DeliveryAddress
+              paymentMethod={valuePaymentMethod}
+              deliveryDate={valueDeliveryDate}
+            />
           </Stack>
         </Box>
       </Container>

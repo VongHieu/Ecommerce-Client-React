@@ -19,20 +19,23 @@ export default function HomeContainerCard({ productCa }) {
 
   const productFilter = useMemo(
     () => products.filter((item) => item.product_category_id === productCa),
-    [productCa, products]
+    [productCa, products],
   );
 
   const productCategoryFilter = useMemo(
     () => productCategories.find((item) => item.id === productCa),
-    [productCa, productCategories]
+    [productCa, productCategories],
   );
 
   return (
     <Box mb={3}>
-      <TitleCard to={`danh-muc-san-pham/${productCategoryFilter.alias}`}>
-        {productCategoryFilter.name}
-      </TitleCard>
-      <Box gap={1} display="flex" flexDirection="column" mb={4}>
+      <TitleCard to={`san-pham/${productCategoryFilter.alias}`}>{productCategoryFilter.name}</TitleCard>
+      <Box
+        gap={1}
+        display="flex"
+        flexDirection="column"
+        mb={4}
+      >
         <StyleCardProduct $number={5}>
           {productFilter.map((product) =>
             product.status && product.home_flag ? (
@@ -41,7 +44,7 @@ export default function HomeContainerCard({ productCa }) {
               </StyleCardItem>
             ) : (
               ''
-            )
+            ),
           )}
         </StyleCardProduct>
       </Box>
