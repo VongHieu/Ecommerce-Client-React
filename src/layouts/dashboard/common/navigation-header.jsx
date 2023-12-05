@@ -73,8 +73,11 @@ const RenderDropdown = ({ id, isOpen, handleIsOpen }) => {
             width: '100%',
           }}
         >
-          <DropdownItem to={`danh-muc-san-pham/${item.alias}`}>
-            <Typography variant="normal" fontSize="13px">
+          <DropdownItem to={`san-pham/${item.alias}`}>
+            <Typography
+              variant="normal"
+              fontSize="13px"
+            >
               {item.name}
             </Typography>
           </DropdownItem>
@@ -102,7 +105,10 @@ export default function NavigationHeader() {
   }, [dispatch]);
 
   const renderMenu = (
-    <Box height="100%" width="100%">
+    <Box
+      height="100%"
+      width="100%"
+    >
       <Stack
         direction="row"
         alignItems="center"
@@ -112,7 +118,10 @@ export default function NavigationHeader() {
       >
         {categories.map((element, index) =>
           element.alias === 'san-pham' ? (
-            <Box sx={{ position: 'relative' }} key={element.id}>
+            <Box
+              sx={{ position: 'relative' }}
+              key={element.id}
+            >
               <Button
                 key={index}
                 component={RouterLink}
@@ -120,11 +129,20 @@ export default function NavigationHeader() {
                 sx={StyleButton}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                endIcon={<Iconify rotate={isHovered ? 0 : 3} icon="gridicons:dropdown" />}
+                endIcon={
+                  <Iconify
+                    rotate={isHovered ? 0 : 3}
+                    icon="gridicons:dropdown"
+                  />
+                }
               >
                 {element.name}
               </Button>
-              <RenderDropdown id={element.id} isOpen={isHovered} handleIsOpen={setIsHovered} />
+              <RenderDropdown
+                id={element.id}
+                isOpen={isHovered}
+                handleIsOpen={setIsHovered}
+              />
             </Box>
           ) : (
             <Button
@@ -135,7 +153,7 @@ export default function NavigationHeader() {
             >
               {element.name}
             </Button>
-          )
+          ),
         )}
       </Stack>
     </Box>

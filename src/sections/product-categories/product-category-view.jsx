@@ -6,34 +6,81 @@ import {
   ListItemButton,
   Typography,
   styled as MUIStyled,
+  createTheme,
+  ThemeProvider,
 } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Iconify from 'src/components/iconify';
-import { useRouter } from 'src/routes/hooks';
+import { usePathname, useRouter } from 'src/routes/hooks';
 import { primary } from 'src/theme/palette';
 import { ProductCard } from 'src/components/card';
 import { productAsyncThunk } from 'src/redux/actions/product-action';
+import { stringify } from 'query-string';
 import { StyleCardItem, StyleCardProduct } from '../styled';
+import CustomPanigation from 'src/components/panigation/custom-panigation';
+
+const defaultSize = 12;
+
+const defaultFilter = {
+  pageNumber: 1,
+  pageSize: defaultSize,
+};
+
+const themes = createTheme({
+  palette: {
+    primary: {
+      main: primary.red,
+    },
+  },
+});
 
 export default function ProductCategoryView() {
   const { alias } = useParams();
+  const { productCategories } = useSelector((x) => x.productCategories);
+  const { products, has_previous, has_next, current_page, page_size, total_count, total_pages } = useSelector(
+    (x) => x.products,
+  );
+
+  const [pageNumber, setPageNumber] = useState(1);
+
   const [open, setOpen] = useState(true);
   const [selectedId, setSelectedId] = useState(null);
   const dispatch = useDispatch();
   const router = useRouter();
-  const { productCategories } = useSelector((x) => x.productCategories);
-  const { products } = useSelector((x) => x.products);
+  const pathname = usePathname();
+
+  console.log(
+    'has_previous, has_next, current_page, page_size, total_count, total_pages',
+    has_previous,
+    has_next,
+    current_page,
+    page_size,
+    total_count,
+    total_pages,
+  );
 
   useEffect(() => {
-    dispatch(productAsyncThunk.getProductByProductCategory());
-  }, [dispatch]);
+    if (!alias && pathname === '/san-pham') {
+      const param = {
+        pageNumber,
+        pageSize: defaultSize,
+      };
+      dispatch(productAsyncThunk.getAllProductPaging(param));
+      router.push('?' + stringify(param));
+    } else {
+      dispatch(productAsyncThunk.getProductByProductCategory());
+    }
+  }, [alias, pageNumber]);
 
-  const productFilter = useMemo(
-    () => products.filter((item) => item.product_category_id === selectedId),
-    [products, selectedId]
-  );
+  const productFilter = useMemo(() => {
+    if (!alias && pathname === '/san-pham') {
+      console.log(products);
+      return products;
+    }
+    return products.filter((item) => item.product_category_id === selectedId);
+  }, [products, selectedId]);
 
   const handleClick = () => {
     setOpen(!open);
@@ -41,69 +88,122 @@ export default function ProductCategoryView() {
 
   const handleListItemClick = (item) => {
     setSelectedId(item.id);
-    router.push(`/danh-muc-san-pham/${item.alias}`);
+    router.push(`/san-pham/${item.alias}`);
   };
 
   useEffect(() => {
-    const data = productCategories.find((item) => item.alias === alias);
-    setSelectedId(data.id);
-  }, [alias, productCategories]);
+    if (!(!alias && pathname === '/san-pham')) {
+      const data = productCategories.find((item) => item.alias === alias && alias);
+      setSelectedId(data.id);
+    } else setSelectedId(null);
+  }, [alias]);
+
+  const handleOnPageChange = (event, value) => {
+    setPageNumber(value);
+  };
 
   return (
-    <Container sx={{ maxWidth: '1200px', position: 'relative', p: '0 !important' }}>
-      <Box display="flex" flexDirection="row" width="100%" borderLeft="1px solid #e0e0e0">
-        <Box flex="0 0 auto" width="20%">
-          <List
-            sx={{ width: '100%', maxWidth: 360, color: 'black' }}
-            component="nav"
-            aria-labelledby="nested-list-subheader"
+    <ThemeProvider theme={themes}>
+      <Container sx={{ maxWidth: '1200px', position: 'relative', p: '0 !important' }}>
+        <Box
+          display="flex"
+          flexDirection="row"
+          width="100%"
+          borderLeft="1px solid #e0e0e0"
+        >
+          <Box
+            flex="0 0 auto"
+            width="20%"
           >
-            <ListItemButton
-              onClick={handleClick}
-              sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+            <List
+              sx={{ width: '100%', maxWidth: 360, color: 'black' }}
+              component="nav"
+              aria-labelledby="nested-list-subheader"
             >
-              <Typography variant="normal" fontSize={14}>
-                DANH MỤC SẢN PHẨM
-              </Typography>
-              {open ? (
-                <Iconify icon="ooui:next-ltr" rotate={1} width={15} />
-              ) : (
-                <Iconify icon="ooui:next-ltr" width={15} />
+              <ListItemButton
+                onClick={handleClick}
+                sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+              >
+                <Typography
+                  variant="normal"
+                  fontSize={14}
+                >
+                  DANH MỤC SẢN PHẨM
+                </Typography>
+                {open ? (
+                  <Iconify
+                    icon="ooui:next-ltr"
+                    rotate={1}
+                    width={15}
+                  />
+                ) : (
+                  <Iconify
+                    icon="ooui:next-ltr"
+                    width={15}
+                  />
+                )}
+              </ListItemButton>
+              <Collapse
+                in={open}
+                timeout="auto"
+                unmountOnExit
+              >
+                <List
+                  component="div"
+                  disablePadding
+                >
+                  {productCategories.map((item) => (
+                    <StyledListItemButton
+                      key={item.id}
+                      sx={{ pl: 4 }}
+                      selected={selectedId === item.id}
+                      onClick={() => handleListItemClick(item)}
+                    >
+                      <Typography
+                        variant="normal"
+                        fontSize={13}
+                      >
+                        {item.name}
+                      </Typography>
+                    </StyledListItemButton>
+                  ))}
+                </List>
+              </Collapse>
+            </List>
+          </Box>
+          <Box
+            borderLeft="1px solid #e0e0e0"
+            width="100%"
+            pb={2}
+            px={1}
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            gap={3}
+          >
+            <StyleCardProduct $number={4}>
+              {productFilter.map((product) =>
+                product.status && product.home_flag ? (
+                  <StyleCardItem key={product.id}>
+                    <ProductCard product={product} />
+                  </StyleCardItem>
+                ) : (
+                  ''
+                ),
               )}
-            </ListItemButton>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                {productCategories.map((item) => (
-                  <StyledListItemButton
-                    key={item.id}
-                    sx={{ pl: 4 }}
-                    selected={selectedId === item.id}
-                    onClick={() => handleListItemClick(item)}
-                  >
-                    <Typography variant="normal" fontSize={13}>
-                      {item.name}
-                    </Typography>
-                  </StyledListItemButton>
-                ))}
-              </List>
-            </Collapse>
-          </List>
+            </StyleCardProduct>
+            <Box>
+              <CustomPanigation
+                count={total_pages}
+                total={total_count}
+                defaultValue={current_page}
+                onChange={handleOnPageChange}
+              />
+            </Box>
+          </Box>
         </Box>
-        <Box borderLeft="1px solid #e0e0e0" width="100%" pb={2} px={1}>
-          <StyleCardProduct $number={4}>
-            {productFilter.map((product) =>
-              product.status && product.home_flag ? (
-                <StyleCardItem key={product.id}>
-                  <ProductCard product={product} />
-                </StyleCardItem>
-              ) : (
-                ''
-              )
-            )}
-          </StyleCardProduct>
-        </Box>
-      </Box>
-    </Container>
+      </Container>
+    </ThemeProvider>
   );
 }
 

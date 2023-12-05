@@ -43,7 +43,11 @@ const dataCarousel = [
 const Carousel = () => {
   const lgUp = useResponsive('up', 'lg');
   return (
-    <Box height="200px" width="100%" mb={2}>
+    <Box
+      height="200px"
+      width="100%"
+      mb={2}
+    >
       <StyleSwiper
         slidesPerView={!lgUp ? 2 : 5}
         pagination={{
@@ -53,7 +57,7 @@ const Carousel = () => {
         {dataCarousel.map((item) => (
           <StyleSwiperSlide key={item.id}>
             <Box width="50%">
-              <StyleLink to={`danh-muc-san-pham/${item.url}`}>
+              <StyleLink to={`san-pham/${item.url}`}>
                 <Avatar
                   alt={item.name}
                   src={`/assets/images/carousels/${item.image}`}

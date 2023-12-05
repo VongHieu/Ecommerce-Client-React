@@ -17,7 +17,7 @@ export default function ProductCard({ product }) {
   const { cart } = useSelector((x) => x.carts);
 
   const handleClickProduct = (alias) => {
-    router.push(`/san-pham/${alias}`);
+    router.push(`/thong-tin-san-pham/${alias}`);
   };
 
   useEffect(() => {
@@ -79,14 +79,21 @@ export default function ProductCard({ product }) {
             {product.name}
           </Typography>
         </Tooltip>
-        <Typography variant="normal" fontSize="13px">
+        <Typography
+          variant="normal"
+          fontSize="13px"
+        >
           {`ĐVT: ${product.weight} KG`}
         </Typography>
       </CardContent>
       <CardContent sx={{ padding: '0 !important', display: 'flex', alignItems: 'center', gap: 2 }}>
         {product.price_sale > 0 ? (
           <>
-            <Typography variant="normal" fontSize="13px" color={primary.red}>
+            <Typography
+              variant="normal"
+              fontSize="13px"
+              color={primary.red}
+            >
               {`${fNumber(product.price_sale)} ₫`}
             </Typography>
             <Typography
@@ -97,22 +104,38 @@ export default function ProductCard({ product }) {
             </Typography>
           </>
         ) : (
-          <Typography variant="normal" fontSize="13px" color={primary.red}>
+          <Typography
+            variant="normal"
+            fontSize="13px"
+            color={primary.red}
+          >
             {`${fNumber(product.price)}đ`}
           </Typography>
         )}
       </CardContent>
       <CardActions>
-        <StyleButton type="button" onClick={(e) => handleChooseProduct(e)}>
+        <StyleButton
+          type="button"
+          onClick={(e) => handleChooseProduct(e)}
+        >
           {!selected ? (
             <>
-              <Iconify icon="tdesign:cart-add" width={15} />
-              <Typography variant="normal" fontSize={14}>
+              <Iconify
+                icon="tdesign:cart-add"
+                width={15}
+              />
+              <Typography
+                variant="normal"
+                fontSize={14}
+              >
                 Thêm vào giỏ
               </Typography>
             </>
           ) : (
-            <Typography variant="normal" fontSize={14}>
+            <Typography
+              variant="normal"
+              fontSize={14}
+            >
               Đã chọn
             </Typography>
           )}

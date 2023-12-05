@@ -4,11 +4,14 @@ import { Controller, useForm } from 'react-hook-form';
 import { grey, primary } from 'src/theme/palette';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fChangeNumber, fNumber } from 'src/utils/format-number';
 import ModalAddress from 'src/layouts/dashboard/common/modal-address';
 import { storage } from 'src/utils/storage';
 import PropTypes from 'prop-types';
+import { orderService } from 'src/services/order-service';
+import { Toastify } from 'src/utils/format-toast';
+import { cartActionThunk } from 'src/redux/actions/cart-action';
 
 const fontSize = {
   fontSize: 13,
@@ -27,8 +30,9 @@ const defaultValues = {
   note: '',
   request_invoice: false,
   delivery_date: new Date(),
-  payment_method_id: '',
+  payment_methods_id: '',
   bill_invoice: 0,
+  userId: null,
 };
 
 const schema = yup
@@ -43,15 +47,18 @@ const schema = yup
   .required();
 
 export default function DeliveryAddress({ paymentMethod, deliveryDate }) {
-  const { totalAmount } = useSelector((x) => x.carts);
+  const { cart, totalAmount } = useSelector((x) => x.carts);
+  const { user } = useSelector((x) => x.user);
   const [open, setOpen] = useState(false);
   const isTranSport = totalAmount >= defaultLimitTransport;
   const billInvoice = !isTranSport ? totalAmount + transportFee : totalAmount;
+  const dispatch = useDispatch();
+
   const {
     control,
     handleSubmit,
     setValue,
-    getValues,
+    reset,
     formState: { errors, isSubmitting, isValid },
   } = useForm({
     mode: 'onBlur',
@@ -65,27 +72,53 @@ export default function DeliveryAddress({ paymentMethod, deliveryDate }) {
 
   useEffect(() => {
     const dataFilter = storage.getCache('userAddress');
-    setValue('delivery_area', dataFilter.address);
-    setValue('payment_method_id', paymentMethod);
+    setValue('delivery_area', dataFilter?.address);
+    setValue('payment_methods_id', paymentMethod);
     setValue('delivery_date', deliveryDate);
+    setValue('userId', user?.id || null);
   }, [setValue, open, paymentMethod, deliveryDate]);
 
-  const handleSubmitOrder = () => {
-    const data = getValues();
+  const handleSubmitOrder = async (value) => {
+    let products = [];
+    cart.forEach((item) => {
+      var product = {
+        product_id: item.id,
+        quantity: item.quantity,
+        total_amount: item.price_sale > 0 ? item.price_sale : item.price,
+      };
+      products.push(product);
+    });
+
     const param = {
-      ...data,
+      ...value,
       bill_invoice: fChangeNumber(fNumber(billInvoice)),
-      customer_address: `${data.customer_address}, ${data.delivery_area}`,
+      customer_address: `${value.customer_address}, ${value.delivery_area}`,
+      carts: products,
     };
-    console.log(param);
+
+    const { data } = await orderService.createOrder(param);
+    if (data.success) {
+      Toastify(data.message, data.success);
+      dispatch(cartActionThunk.clearCart());
+      reset(defaultValues);
+    }
   };
 
   return (
     <>
-      <Typography variant="normal" fontSize={18} lineHeight="32px" fontWeight={400} mb={1}>
+      <Typography
+        variant="normal"
+        fontSize={18}
+        lineHeight="32px"
+        fontWeight={400}
+        mb={1}
+      >
         Địa chỉ nhận hàng
       </Typography>
-      <form id="form" onSubmit={handleSubmit(handleSubmitOrder)}>
+      <form
+        id="form"
+        onSubmit={handleSubmit(handleSubmitOrder)}
+      >
         <Controller
           name="customer_name"
           control={control}
@@ -97,7 +130,11 @@ export default function DeliveryAddress({ paymentMethod, deliveryDate }) {
               justifyContent="space-between"
               mb={2}
             >
-              <Typography variant="normal" fontSize={13} width="25%">
+              <Typography
+                variant="normal"
+                fontSize={13}
+                width="25%"
+              >
                 Họ tên người nhận <sup style={{ color: primary.red }}>*</sup>
               </Typography>
               <TextField
@@ -125,7 +162,11 @@ export default function DeliveryAddress({ paymentMethod, deliveryDate }) {
               justifyContent="space-between"
               mb={2}
             >
-              <Typography variant="normal" fontSize={13} width="25%">
+              <Typography
+                variant="normal"
+                fontSize={13}
+                width="25%"
+              >
                 Số điện thoại <sup style={{ color: primary.red }}>*</sup>
               </Typography>
               <TextField
@@ -153,7 +194,11 @@ export default function DeliveryAddress({ paymentMethod, deliveryDate }) {
               justifyContent="space-between"
               mb={2}
             >
-              <Typography variant="normal" fontSize={13} width="25%">
+              <Typography
+                variant="normal"
+                fontSize={13}
+                width="25%"
+              >
                 Khu vực giao hàng <sup style={{ color: primary.red }}>*</sup>
               </Typography>
               <TextField
@@ -168,7 +213,10 @@ export default function DeliveryAddress({ paymentMethod, deliveryDate }) {
                 helperText={errors.delivery_area?.message}
                 inputProps={{ style: fontSize }}
               />
-              <StyledButton onClick={hanldeChangeAddress} padding="12px 12px">
+              <StyledButton
+                onClick={hanldeChangeAddress}
+                padding="12px 12px"
+              >
                 Đổi khu vực
               </StyledButton>
             </Stack>
@@ -185,7 +233,11 @@ export default function DeliveryAddress({ paymentMethod, deliveryDate }) {
               justifyContent="space-between"
               mb={2}
             >
-              <Typography variant="normal" fontSize={13} width="25%">
+              <Typography
+                variant="normal"
+                fontSize={13}
+                width="25%"
+              >
                 Địa chỉ <sup style={{ color: primary.red }}>*</sup>
               </Typography>
               <TextField
@@ -213,7 +265,11 @@ export default function DeliveryAddress({ paymentMethod, deliveryDate }) {
               justifyContent="space-between"
               mb={2}
             >
-              <Typography variant="normal" fontSize={13} width="25%">
+              <Typography
+                variant="normal"
+                fontSize={13}
+                width="25%"
+              >
                 Địa chỉ email <sup style={{ color: primary.red }}>*</sup>
               </Typography>
               <TextField
@@ -241,7 +297,11 @@ export default function DeliveryAddress({ paymentMethod, deliveryDate }) {
               justifyContent="space-between"
               mb={2}
             >
-              <Typography variant="normal" fontSize={13} width="25%">
+              <Typography
+                variant="normal"
+                fontSize={13}
+                width="25%"
+              >
                 Ghi chú
               </Typography>
               <TextField
@@ -286,9 +346,7 @@ export default function DeliveryAddress({ paymentMethod, deliveryDate }) {
               fontSize={14}
             >
               <Typography variant="normal">Phí vận chuyển</Typography>
-              <Typography variant="normal">{`${
-                !isTranSport ? fNumber(transportFee) : 0
-              } ₫`}</Typography>
+              <Typography variant="normal">{`${!isTranSport ? fNumber(transportFee) : 0} ₫`}</Typography>
             </Stack>
             <Stack
               direction="row"
@@ -305,14 +363,26 @@ export default function DeliveryAddress({ paymentMethod, deliveryDate }) {
                 color={primary.red}
               >{`${fNumber(billInvoice)} ₫`}</Typography>
             </Stack>
-            <Stack direction="row" justifyContent="flex-end">
-              <StyledButton type="submit" disabled={!isValid && !isSubmitting} padding="12px 32px">
+            <Stack
+              direction="row"
+              justifyContent="flex-end"
+            >
+              <StyledButton
+                type="submit"
+                disabled={!isValid && !isSubmitting}
+                padding="12px 32px"
+              >
                 XÁC NHẬN ĐẶT HÀNG
               </StyledButton>
             </Stack>
           </Box>
         </Box>
-        {open && <ModalAddress open={open} handleClose={handleCloseModal} />}
+        {open && (
+          <ModalAddress
+            open={open}
+            handleClose={handleCloseModal}
+          />
+        )}
       </form>
     </>
   );

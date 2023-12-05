@@ -22,8 +22,7 @@ export const callApi = async (path, method, headers, body) => {
       data: body,
       withCredentials: true,
     });
-    const { data, status } = resp;
-    return { data, status };
+    return { data: resp.data, status: resp.status, headers: resp.headers };
   } catch (error) {
     if (error.response) {
       const { data, status } = error.response;

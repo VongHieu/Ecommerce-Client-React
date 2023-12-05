@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { cartActionThunk } from '../actions/cart-action';
 
-const { addProductCart, cleanMessage, addQuantityProductCart, removeProductToCart } =
-  cartActionThunk;
+const { addProductCart, cleanMessage, addQuantityProductCart, removeProductToCart, clearCart } = cartActionThunk;
 const successMessage = 'Thêm vào giỏ hàng thành công!';
 const errorMessage = 'Có lỗi khi thêm!';
 const existedMessage = 'Sản phẩm đã được thêm vào giỏ hàng!';
@@ -39,9 +38,8 @@ const cartSlice = createSlice({
             cart: [...state.cart, action.payload],
             count: [...state.cart, action.payload].length,
             totalAmount: [...state.cart, action.payload].reduce(
-              (acc, cur) =>
-                acc + (cur.discount > 0 ? cur.price_sale * cur.quantity : cur.price * cur.quantity),
-              0
+              (acc, cur) => acc + (cur.discount > 0 ? cur.price_sale * cur.quantity : cur.price * cur.quantity),
+              0,
             ),
             message: successMessage,
             success: true,
@@ -97,9 +95,8 @@ const cartSlice = createSlice({
           success: true,
           cart: updatedCart,
           totalAmount: updatedCart.reduce(
-            (acc, cur) =>
-              acc + (cur.discount > 0 ? cur.price_sale * cur.quantity : cur.price * cur.quantity),
-            0
+            (acc, cur) => acc + (cur.discount > 0 ? cur.price_sale * cur.quantity : cur.price * cur.quantity),
+            0,
           ),
         };
       })
@@ -125,13 +122,26 @@ const cartSlice = createSlice({
           success: true,
           cart: updatedCart,
           totalAmount: updatedCart.reduce(
-            (acc, cur) =>
-              acc + (cur.discount > 0 ? cur.price_sale * cur.quantity : cur.price * cur.quantity),
-            0
+            (acc, cur) => acc + (cur.discount > 0 ? cur.price_sale * cur.quantity : cur.price * cur.quantity),
+            0,
           ),
           count: updatedCart.length,
         };
-      });
+      })
+      .addCase(clearCart.pending, (state) => ({
+        ...state,
+        loading: true,
+      }))
+      .addCase(clearCart.fulfilled, (state, action) => ({
+        ...state,
+        loading: false,
+        cart: [],
+        count: 0,
+        totalAmount: 0,
+        message: null,
+        success: false,
+        error: false,
+      }));
   },
 });
 
