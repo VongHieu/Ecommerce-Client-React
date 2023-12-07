@@ -91,7 +91,7 @@ export default function DeliveryAddress({ paymentMethod, deliveryDate }) {
 
     const param = {
       ...value,
-      bill_invoice: fChangeNumber(fNumber(billInvoice)),
+      bill_invoice: fChangeNumber(fNumber(totalAmount)),
       customer_address: `${value.customer_address}, ${value.delivery_area}`,
       carts: products,
     };

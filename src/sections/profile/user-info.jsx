@@ -25,6 +25,7 @@ import {
   Radio,
 } from '@mui/material';
 import { primary } from 'src/theme/palette';
+import { fStringToDate } from 'src/utils/format-time';
 
 const BACK_URI = import.meta.env.VITE_BACKEND_URL;
 
@@ -35,7 +36,7 @@ const fontSize = {
 const defaultValues = {
   full_name: '',
   address: '',
-  dob: new Date(),
+  day_of_birth: new Date(),
   gender: false,
   email: '',
   phone_number: '',
@@ -52,7 +53,7 @@ const schema = yup
   .shape({
     full_name: yup.string().required('Thông tin bắt buộc'),
     phone_number: yup.string().required('Thông tin bắt buộc'),
-    dob: yup.date(),
+    day_of_birth: yup.date(),
     gender: yup.boolean(),
     email: yup.string().required('Thông tin bắt buộc').email('Email không đúng định dạng'),
   })
@@ -92,12 +93,11 @@ export default function UserInfo() {
   };
 
   const submitFormUpdate = (data) => {
-    console.log(data);
     const formData = new FormData();
-
-    for (const key in data) {
-      formData.append(key, data[key]);
-    }
+    Object.entries({
+      ...data,
+      day_of_birth: data.day_of_birth.toISOString().split('T')[0],
+    }).forEach(([key, item]) => formData.append(key, item));
 
     dispatch(UserActionThunk.updateUser(formData));
   };
@@ -120,7 +120,7 @@ export default function UserInfo() {
       const val = {
         ...defaultValues,
         ...user,
-        dob: user.dob || new Date(),
+        day_of_birth: fStringToDate(user.dob) || new Date(),
         address: user.address || '',
       };
       reset(val);
@@ -341,7 +341,7 @@ export default function UserInfo() {
             )}
           />
           <Controller
-            name="dob"
+            name="day_of_birth"
             control={control}
             render={({ field }) => (
               <Stack
@@ -365,9 +365,9 @@ export default function UserInfo() {
                   >
                     <DatePicker
                       sx={{ width: 100 }}
-                      onChange={(date) => setValue('dob', date)}
-                      value={watch('dob')}
-                      name="dob"
+                      onChange={(date) => setValue('day_of_birth', date)}
+                      value={watch('day_of_birth')}
+                      name="day_of_birth"
                       slotProps={{ textField: { size: 'small' } }}
                     />
                   </DemoContainer>
