@@ -1,4 +1,4 @@
-import { format, formatDistanceToNow, getTime, setDay, setHours, startOfWeek } from 'date-fns';
+import { format, formatDistanceToNow, getTime, setDay, setHours, startOfWeek, parseISO } from 'date-fns';
 
 export const nameDaysOfWeek = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
 
@@ -46,6 +46,10 @@ export function fToNow(date) {
         addSuffix: true,
       })
     : '';
+}
+
+export function fStringToDate(date) {
+  return parseISO(date);
 }
 
 export function fGetTimeForDayOfWeek(dayOfWeek, hour) {
