@@ -25,7 +25,7 @@ import {
   Radio,
 } from '@mui/material';
 import { primary } from 'src/theme/palette';
-import { fStringToDate } from 'src/utils/format-time';
+import { fDate, fStringToDate } from 'src/utils/format-time';
 
 const BACK_URI = import.meta.env.VITE_BACKEND_URL;
 
@@ -96,7 +96,7 @@ export default function UserInfo() {
     const formData = new FormData();
     Object.entries({
       ...data,
-      day_of_birth: data.day_of_birth.toISOString().split('T')[0],
+      day_of_birth: fDate(data.day_of_birth, 'yyyy-MM-dd'),
     }).forEach(([key, item]) => formData.append(key, item));
 
     dispatch(UserActionThunk.updateUser(formData));
