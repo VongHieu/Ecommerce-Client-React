@@ -23,8 +23,7 @@ import {
   ThemeProvider,
 } from '@mui/material';
 import { useRouter } from 'src/routes/hooks';
-
-const BAKEND_URL = import.meta.env.VITE_BACKEND_URL;
+import { BACKEND_URL } from 'src/utils/axios-instance';
 
 const themes = createTheme({
   palette: {
@@ -46,7 +45,11 @@ const ListProductItem = ({ product }) => (
     }}
   >
     <Stack sx={{ width: '50px' }}>
-      <img alt={product.name} src={`${BAKEND_URL}images/products${product.avatar}`} width="100%" />
+      <img
+        alt={product.name}
+        src={`${BACKEND_URL}images/products${product.avatar}`}
+        width="100%"
+      />
     </Stack>
     <Stack sx={{ width: '75%', margin: '0 5px', display: 'flex', flexDirection: 'column' }}>
       <Typography
@@ -58,14 +61,25 @@ const ListProductItem = ({ product }) => (
       >
         {product.name}
       </Typography>
-      <Typography variant="normal" fontSize={12}>
+      <Typography
+        variant="normal"
+        fontSize={12}
+      >
         {`Khối lượng: ${product.weight} Kg`}
       </Typography>
       <StockPrice>
-        <Typography variant="normal" fontSize={12}>
+        <Typography
+          variant="normal"
+          fontSize={12}
+        >
           {`x${product.quantity}`}
         </Typography>
-        <Typography variant="normal" fontSize={12} color={primary.red} fontWeight="bold">
+        <Typography
+          variant="normal"
+          fontSize={12}
+          color={primary.red}
+          fontWeight="bold"
+        >
           {`${product.discount > 0 ? fNumber(product.price_sale) : fNumber(product.price)} ₫`}
         </Typography>
       </StockPrice>
@@ -103,9 +117,19 @@ export default function CartPopover() {
 
   return (
     <ThemeProvider theme={themes}>
-      <IconButton color={open ? 'primary' : 'default'} onClick={handleOpen}>
-        <Badge badgeContent={count} color="primary">
-          <Iconify width={24} icon="solar:cart-3-bold" sx={{ color: primary.red }} />
+      <IconButton
+        color={open ? 'primary' : 'default'}
+        onClick={handleOpen}
+      >
+        <Badge
+          badgeContent={count}
+          color="primary"
+        >
+          <Iconify
+            width={24}
+            icon="solar:cart-3-bold"
+            sx={{ color: primary.red }}
+          />
         </Badge>
       </IconButton>
 
@@ -138,22 +162,34 @@ export default function CartPopover() {
             }
           >
             {cart.length > 0 &&
-              cart.map((product) => <ListProductItem product={product} key={product.id} />)}
+              cart.map((product) => (
+                <ListProductItem
+                  product={product}
+                  key={product.id}
+                />
+              ))}
           </List>
         </Scrollbar>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
         <Box sx={{ p: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="normal" fontSize={13}>{`Có tổng số ${count} sản phẩm`}</Typography>
-          <Typography variant="normal" fontSize={13}>
+          <Typography
+            variant="normal"
+            fontSize={13}
+          >{`Có tổng số ${count} sản phẩm`}</Typography>
+          <Typography
+            variant="normal"
+            fontSize={13}
+          >
             Tổng tiền:
-            <span style={{ color: primary.red, fontWeight: 'bold' }}>{` ${fRounding(
-              totalAmount
-            )} ₫`}</span>
+            <span style={{ color: primary.red, fontWeight: 'bold' }}>{` ${fRounding(totalAmount)} ₫`}</span>
           </Typography>
         </Box>
         <Box sx={{ p: 1, float: 'right' }}>
-          <StyledButton padding="3px 24px" onClick={hanldeDetailCart}>
+          <StyledButton
+            padding="3px 24px"
+            onClick={hanldeDetailCart}
+          >
             Xem chi tiết
           </StyledButton>
         </Box>

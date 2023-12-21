@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  IconButton,
-  Stack,
-  Typography,
-  styled as MUIStyled,
-} from '@mui/material';
+import { Box, Button, Container, IconButton, Stack, Typography, styled as MUIStyled } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import Iconify from 'src/components/iconify';
 import { primary } from 'src/theme/palette';
@@ -17,8 +9,8 @@ import { useEffect, useState } from 'react';
 import { cartActionThunk } from 'src/redux/actions/cart-action';
 import QuantityInput from 'src/sections/products/product-input-stock';
 import { useRouter } from 'src/routes/hooks';
+import { BACKEND_URL } from 'src/utils/axios-instance';
 
-const BAKEND_URL = import.meta.env.VITE_BACKEND_URL;
 const moneyDefault = 300000;
 const transportFee = 30000;
 
@@ -43,41 +35,74 @@ const ItemProductCart = ({ product }) => {
 
   return (
     <ItemCart>
-      <Stack direction="row" alignItems="center" gap={0.5}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        gap={0.5}
+      >
         <img
           alt={product.name}
-          src={`${BAKEND_URL}images/products${product.avatar}`}
+          src={`${BACKEND_URL}images/products${product.avatar}`}
           width="60px"
         />
-        <Box display="flex" flexDirection="column">
-          <Typography variant="normal" fontSize={13}>
+        <Box
+          display="flex"
+          flexDirection="column"
+        >
+          <Typography
+            variant="normal"
+            fontSize={13}
+          >
             {product.name}
           </Typography>
-          <Typography variant="normal" fontSize={12}>
+          <Typography
+            variant="normal"
+            fontSize={12}
+          >
             {`ĐVT: ${product.weight} KG`}
           </Typography>
         </Box>
       </Stack>
 
-      <Stack direction="row" alignItems="center" gap={4}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        gap={4}
+      >
         {product.price_sale > 0 ? (
           <>
-            <Typography variant="normal" fontSize={13}>
+            <Typography
+              variant="normal"
+              fontSize={13}
+            >
               {`${fNumber(product.price_sale)} ₫`}
             </Typography>
-            <Typography variant="normal" fontSize={13} color={primary.priceSale}>
+            <Typography
+              variant="normal"
+              fontSize={13}
+              color={primary.priceSale}
+            >
               <del> {`${fNumber(product.price)} ₫`}</del>
             </Typography>
           </>
         ) : (
-          <Typography variant="normal" fontSize={13}>
+          <Typography
+            variant="normal"
+            fontSize={13}
+          >
             {`${fNumber(product.price)} ₫`}
           </Typography>
         )}
 
-        <QuantityInput setValue={setQuantity} quantitySel={quantity} />
+        <QuantityInput
+          setValue={setQuantity}
+          quantitySel={quantity}
+        />
         <IconButton onClick={hanldeRemoveProduct}>
-          <Iconify icon="typcn:delete" width={24} />
+          <Iconify
+            icon="typcn:delete"
+            width={24}
+          />
         </IconButton>
       </Stack>
     </ItemCart>
@@ -85,11 +110,21 @@ const ItemProductCart = ({ product }) => {
 };
 
 const InfoCart = ({ label, value }) => (
-  <Box display="flex" alignItems="center" justifyContent="space-between">
-    <Typography variant="normal" fontSize={13}>
+  <Box
+    display="flex"
+    alignItems="center"
+    justifyContent="space-between"
+  >
+    <Typography
+      variant="normal"
+      fontSize={13}
+    >
       {label}
     </Typography>
-    <Typography variant="normal" fontSize={13}>
+    <Typography
+      variant="normal"
+      fontSize={13}
+    >
       {`${fNumber(value)} `}
       <sup>₫</sup>
     </Typography>
@@ -103,7 +138,12 @@ export default function CartView() {
   const router = useRouter();
 
   const renderNoProductInCart = (
-    <Stack direction="column" alignItems="center" justifyContent="space-between" gap={4}>
+    <Stack
+      direction="column"
+      alignItems="center"
+      justifyContent="space-between"
+      gap={4}
+    >
       <NoProductImage />
       <Box
         display="flex"
@@ -112,10 +152,16 @@ export default function CartView() {
         justifyContent="center"
         gap={1}
       >
-        <Typography variant="normal" fontSize={14}>
+        <Typography
+          variant="normal"
+          fontSize={14}
+        >
           Giỏ hàng chưa có sản phẩm
         </Typography>
-        <StyledButton padding="4px 16px" onClick={() => router.push('/')}>
+        <StyledButton
+          padding="4px 16px"
+          onClick={() => router.push('/')}
+        >
           Quay lại trang chủ
         </StyledButton>
       </Box>
@@ -127,27 +173,76 @@ export default function CartView() {
       {cart.length <= 0 ? (
         renderNoProductInCart
       ) : (
-        <Box display="flex" flexDirection="row" gap={2}>
-          <Box display="flex" flexDirection="column" gap={2} flex={2} width="100%">
+        <Box
+          display="flex"
+          flexDirection="row"
+          gap={2}
+        >
+          <Box
+            display="flex"
+            flexDirection="column"
+            gap={2}
+            flex={2}
+            width="100%"
+          >
             {cart.map((item) => (
-              <ItemProductCart product={item} key={item.id} />
+              <ItemProductCart
+                product={item}
+                key={item.id}
+              />
             ))}
           </Box>
-          <Box flex={1} display="flex" flexDirection="column" gap={2}>
-            <Stack direction="column" justifyContent="flex-start" gap={1}>
-              <InfoCart label="Tạm tính giỏ hàng:" value={totalAmount} />
-              <InfoCart label="Tiết kiệm được:" value={totalAmount - priceOrigin} />
-              <InfoCart label="Phí vận chuyển:" value={moneyTransport} />
-              <InfoCart label="Thành tiền:" value={totalAmount + moneyTransport} />
-              <Typography variant="normal" fontSize={13} fontStyle="italic">
+          <Box
+            flex={1}
+            display="flex"
+            flexDirection="column"
+            gap={2}
+          >
+            <Stack
+              direction="column"
+              justifyContent="flex-start"
+              gap={1}
+            >
+              <InfoCart
+                label="Tạm tính giỏ hàng:"
+                value={totalAmount}
+              />
+              <InfoCart
+                label="Tiết kiệm được:"
+                value={totalAmount - priceOrigin}
+              />
+              <InfoCart
+                label="Phí vận chuyển:"
+                value={moneyTransport}
+              />
+              <InfoCart
+                label="Thành tiền:"
+                value={totalAmount + moneyTransport}
+              />
+              <Typography
+                variant="normal"
+                fontSize={13}
+                fontStyle="italic"
+              >
                 (Giá đã bao gồm VAT)
               </Typography>
             </Stack>
-            <StyledButton fullWidth onClick={() => router.push('/thanh-toan')}>
-              <Typography variant="normal" fontSize={13} lineHeight={1.2}>
+            <StyledButton
+              fullWidth
+              onClick={() => router.push('/thanh-toan')}
+            >
+              <Typography
+                variant="normal"
+                fontSize={13}
+                lineHeight={1.2}
+              >
                 THANH TOÁN
               </Typography>
-              <Typography variant="normal" fontSize={13} lineHeight={1.2}>
+              <Typography
+                variant="normal"
+                fontSize={13}
+                lineHeight={1.2}
+              >
                 {`${fNumber(totalAmount)} ₫`}
               </Typography>
             </StyledButton>

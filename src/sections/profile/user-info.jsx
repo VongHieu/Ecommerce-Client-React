@@ -26,8 +26,7 @@ import {
 } from '@mui/material';
 import { primary } from 'src/theme/palette';
 import { fDate, fStringToDate } from 'src/utils/format-time';
-
-const BACK_URI = import.meta.env.VITE_BACKEND_URL;
+import { BACKEND_URL } from 'src/utils/axios-instance';
 
 const fontSize = {
   fontSize: 13,
@@ -164,7 +163,7 @@ export default function UserInfo() {
 
           <Avatar
             variant="circular"
-            src={selectedImage || (watch('avatar') && `${BACK_URI}images/avatars${watch('avatar')}`)}
+            src={selectedImage || (watch('avatar') && `${BACKEND_URL}images/avatars${watch('avatar')}`)}
             alt=""
             sx={{
               width: 200,

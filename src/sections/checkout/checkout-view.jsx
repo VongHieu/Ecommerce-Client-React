@@ -14,8 +14,8 @@ import {
 import { useState } from 'react';
 import { customShadows } from 'src/theme/custom-shadows';
 import { primary } from 'src/theme/palette';
-import Calendar from '../calendar';
-import DeliveryAddress from '../delivery-address';
+import Calendar from './calendar';
+import DeliveryAddress from './delivery-address';
 
 const paymentMethods = [
   { label: 'Tiền mặt (COD)', value: 1, icon: 'cod.png', width: 20 },

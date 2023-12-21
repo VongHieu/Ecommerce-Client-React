@@ -8,8 +8,8 @@ import { fNumber } from 'src/utils/format-number';
 import { cartActionThunk } from 'src/redux/actions/cart-action';
 import { useRouter } from 'src/routes/hooks';
 import Iconify from '../iconify';
+import { BACKEND_URL } from 'src/utils/axios-instance';
 
-const BAKEND_URL = import.meta.env.VITE_BACKEND_URL;
 export default function ProductCard({ product }) {
   const [selected, setSelected] = useState(false);
   const router = useRouter();
@@ -38,7 +38,7 @@ export default function ProductCard({ product }) {
     <BoxShadowCardItem onClick={() => handleClickProduct(product.alias)}>
       <CardMedia
         sx={{ height: 145, width: 145, margin: '0 auto', mb: 0.5, position: 'relative' }}
-        image={`${BAKEND_URL}images/products${product.avatar}`}
+        image={`${BACKEND_URL}images/products${product.avatar}`}
         title={product.name}
       >
         {product.discount > 0 ? (

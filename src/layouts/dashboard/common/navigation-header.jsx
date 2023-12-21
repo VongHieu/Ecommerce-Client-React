@@ -68,9 +68,9 @@ const RenderDropdown = ({ id, isOpen, handleIsOpen }) => {
           key={item.id}
           sx={{
             color: 'black',
-            padding: '6px 0 6px 16px',
             ':hover': { backgroundColor: primary.red, color: 'white' },
             width: '100%',
+            padding: '0 !important',
           }}
         >
           <DropdownItem to={`san-pham/${item.alias}`}>
@@ -173,4 +173,6 @@ const DropdownItem = styled(Link)`
   font-size: 13px;
   font-weight: 500;
   width: 100%;
+  height: 100%;
+  padding: 10px 0 10px 24px;
 `;

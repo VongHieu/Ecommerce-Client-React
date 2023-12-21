@@ -10,8 +10,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { slideActionThunk } from 'src/redux/actions/slider-action';
 import Iconify from '../iconify';
-
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+import { BACKEND_URL } from 'src/utils/axios-instance';
 
 const ArrowButton = () => (
   <StyleArrowButton>

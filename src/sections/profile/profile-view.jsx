@@ -14,7 +14,7 @@ import { useParams } from 'react-router-dom';
 import Iconify from 'src/components/iconify';
 import { useRouter } from 'src/routes/hooks';
 import { primary } from 'src/theme/palette';
-import UserInfo from '../user-info';
+import UserInfo from './user-info';
 
 const MENU_OPTIONS = [
   {

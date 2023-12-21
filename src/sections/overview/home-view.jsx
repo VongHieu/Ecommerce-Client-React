@@ -6,8 +6,8 @@ import { Toastify } from 'src/utils/format-toast';
 
 const LazyLoadedSlider = lazy(() => import('src/components/Slider'));
 const LazyLoadedCarousel = lazy(() => import('src/components/Carousel'));
-const LazyLoadedAppCardProduct = lazy(() => import('../home-card-product'));
-const LazyLoadedHomePartner = lazy(() => import('../home-partner'));
+const LazyLoadedAppCardProduct = lazy(() => import('./home-card-product'));
+const LazyLoadedHomePartner = lazy(() => import('./home-partner'));
 // ----------------------------------------------------------------------
 
 export default function HomeView() {
@@ -28,7 +28,10 @@ export default function HomeView() {
       <LazyLoadedSlider />
       <LazyLoadedCarousel />
       {productCategories.map((item) => (
-        <LazyLoadedAppCardProduct productCa={item.id} key={item.id} />
+        <LazyLoadedAppCardProduct
+          productCa={item.id}
+          key={item.id}
+        />
       ))}
       <LazyLoadedHomePartner />
     </Container>

@@ -7,7 +7,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import App from './app';
 import { store, persistor } from './redux/store';
-// ----------------------------------------------------------------------
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -16,11 +15,14 @@ root.render(
     <HelmetProvider>
       <BrowserRouter>
         <Suspense>
-          <PersistGate loading={null} persistor={persistor}>
+          <PersistGate
+            loading={null}
+            persistor={persistor}
+          >
             <App />
           </PersistGate>
         </Suspense>
       </BrowserRouter>
     </HelmetProvider>
-  </Provider>
+  </Provider>,
 );

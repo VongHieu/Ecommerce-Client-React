@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { productAsyncThunk } from 'src/redux/actions/product-action';
-import { ProductDetailView } from 'src/sections/products/view';
+import { ProductDetailView } from 'src/sections';
 
 export default function ProductDetailPage() {
   const dispatch = useDispatch();

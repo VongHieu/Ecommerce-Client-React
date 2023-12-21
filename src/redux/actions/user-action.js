@@ -8,7 +8,6 @@ const defaultMessage = {
 
 const loginUser = createAsyncThunk('USER_LOGIN_USER', async (p) => {
   const { status, data } = await userService.loginUser(p);
-  console.log(status, data);
   if (status < 400) {
     if (data) {
       const decodedToken = jwtDecode(data.data);

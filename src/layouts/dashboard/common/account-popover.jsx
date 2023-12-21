@@ -14,8 +14,7 @@ import { useRouter } from 'src/routes/hooks';
 import { UserActionThunk } from 'src/redux/actions/user-action';
 import Iconify from 'src/components/iconify';
 import { primary } from 'src/theme/palette';
-
-const URI = import.meta.env.VITE_BACKEND_URL;
+import { BACKEND_URL } from 'src/utils/axios-instance';
 
 const MENU_OPTIONS = [
   {
@@ -90,7 +89,7 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={`${user?.avatar ? `${URI}images/avatars/${user.avatar}` : ''}`}
+          src={`${user?.avatar ? `${BACKEND_URL}images/avatars/${user.avatar}` : ''}`}
           alt={user?.full_name}
           sx={{
             width: 36,
@@ -119,10 +118,18 @@ export default function AccountPopover() {
           }}
         >
           <Box sx={{ my: 1.5, px: 2 }}>
-            <Typography variant="subtitle2" noWrap>
+            <Typography
+              variant="subtitle2"
+              noWrap
+            >
               {user.full_name}
             </Typography>
-            <Typography variant="normal" fontSize={12} color={primary.colorPrice} noWrap>
+            <Typography
+              variant="normal"
+              fontSize={12}
+              color={primary.colorPrice}
+              noWrap
+            >
               {user.email}
             </Typography>
           </Box>
@@ -142,7 +149,10 @@ export default function AccountPopover() {
               }}
             >
               <Iconify icon={option.icon} />
-              <Typography variant="normal" fontSize={13}>
+              <Typography
+                variant="normal"
+                fontSize={13}
+              >
                 {option.label}
               </Typography>
             </MenuItem>
@@ -155,7 +165,10 @@ export default function AccountPopover() {
             sx={{ display: 'flex', gap: 1, alignItems: 'center', color: primary.colorPrice, py: 1 }}
           >
             <Iconify icon="mdi:logout" />
-            <Typography variant="normal" fontSize={13}>
+            <Typography
+              variant="normal"
+              fontSize={13}
+            >
               Đăng xuất
             </Typography>
           </MenuItem>
