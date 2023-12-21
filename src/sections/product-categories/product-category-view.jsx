@@ -22,12 +22,6 @@ import { StyleCardItem, StyleCardProduct } from '../styled';
 import CustomPanigation from 'src/components/panigation/custom-panigation';
 
 const defaultSize = 12;
-
-const defaultFilter = {
-  pageNumber: 1,
-  pageSize: defaultSize,
-};
-
 const themes = createTheme({
   palette: {
     primary: {
@@ -39,9 +33,7 @@ const themes = createTheme({
 export default function ProductCategoryView() {
   const { alias } = useParams();
   const { productCategories } = useSelector((x) => x.productCategories);
-  const { products, has_previous, has_next, current_page, page_size, total_count, total_pages } = useSelector(
-    (x) => x.products,
-  );
+  const { products, current_page, total_count, total_pages } = useSelector((x) => x.products);
 
   const [pageNumber, setPageNumber] = useState(1);
 
@@ -50,16 +42,6 @@ export default function ProductCategoryView() {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
-
-  console.log(
-    'has_previous, has_next, current_page, page_size, total_count, total_pages',
-    has_previous,
-    has_next,
-    current_page,
-    page_size,
-    total_count,
-    total_pages,
-  );
 
   useEffect(() => {
     if (!alias && pathname === '/san-pham') {
@@ -76,7 +58,6 @@ export default function ProductCategoryView() {
 
   const productFilter = useMemo(() => {
     if (!alias && pathname === '/san-pham') {
-      console.log(products);
       return products;
     }
     return products.filter((item) => item.product_category_id === selectedId);
@@ -192,14 +173,18 @@ export default function ProductCategoryView() {
                 ),
               )}
             </StyleCardProduct>
-            <Box>
-              <CustomPanigation
-                count={total_pages}
-                total={total_count}
-                defaultValue={current_page}
-                onChange={handleOnPageChange}
-              />
-            </Box>
+            {pathname === '/san-pham' ? (
+              <Box>
+                <CustomPanigation
+                  count={total_pages}
+                  total={total_count}
+                  defaultValue={current_page}
+                  onChange={handleOnPageChange}
+                />
+              </Box>
+            ) : (
+              ''
+            )}
           </Box>
         </Box>
       </Container>
@@ -207,7 +192,7 @@ export default function ProductCategoryView() {
   );
 }
 
-const StyledListItemButton = MUIStyled(ListItemButton)(({ theme }) => ({
+const StyledListItemButton = MUIStyled(ListItemButton)(() => ({
   backgroundColor: 'white',
   '&:hover': {
     backgroundColor: 'white',

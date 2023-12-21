@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { CartView } from 'src/sections/cart/view';
+import { CartView } from 'src/sections';
 
 export default function CartPage() {
   return (

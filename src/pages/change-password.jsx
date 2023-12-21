@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import ChangePasswordView from 'src/sections/user/change-password-view';
+import { ChangePasswordView } from 'src/sections';
 
 export default function ChangePassword() {
   return (

@@ -10,8 +10,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import styled from '@emotion/styled';
 import { primary } from 'src/theme/palette';
-
-const BACKEND_URI = import.meta.env.VITE_BACKEND_URL;
+import { BACKEND_URL } from 'src/utils/axios-instance';
 
 export default function ProductGallery({ thumbnails, avatar }) {
   const thumbnailProduct = thumbnails ? JSON.parse(thumbnails) : [];
@@ -27,7 +26,11 @@ export default function ProductGallery({ thumbnails, avatar }) {
       >
         {galleryProduct.map((item, index) => (
           <SwiperSlide key={`slide-${index}`}>
-            <img src={`${BACKEND_URI}images/products${item.file_name}`} alt="" width="100%" />
+            <img
+              src={`${BACKEND_URL}images/products${item.file_name}`}
+              alt=""
+              width="100%"
+            />
           </SwiperSlide>
         ))}
       </AvatarStyle>
@@ -41,7 +44,10 @@ export default function ProductGallery({ thumbnails, avatar }) {
       >
         {galleryProduct.map((item, index) => (
           <SwiperSlide key={`slide-${index}`}>
-            <img src={`${BACKEND_URI}images/products${item.file_name}`} alt="" />
+            <img
+              src={`${BACKEND_URL}images/products${item.file_name}`}
+              alt=""
+            />
           </SwiperSlide>
         ))}
       </GalleryStyle>

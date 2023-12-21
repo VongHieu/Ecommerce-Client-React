@@ -1,8 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-
-import { HomeView } from 'src/sections/overview/view';
-
-// ----------------------------------------------------------------------
+import { HomeView } from 'src/sections';
 
 export default function HomePage() {
   return (

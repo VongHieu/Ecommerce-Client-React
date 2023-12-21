@@ -49,7 +49,6 @@ const productSlice = createSlice({
         loading: true,
       }))
       .addCase(getAllProductPaging.fulfilled, (state, action) => {
-        console.log(action.payload);
         const { has_previous, has_next, current_page, page_size, total_count, total_pages, items } = action.payload;
         return {
           ...state,
