@@ -19,8 +19,6 @@ import CartPopover from './common/cart-popover';
 import NavigationHeader from './common/navigation-header';
 import CityAddress from './common/city-address';
 
-// ----------------------------------------------------------------------
-
 export default function Header({ onOpenNav }) {
   const theme = useTheme();
 
@@ -29,7 +27,10 @@ export default function Header({ onOpenNav }) {
   const renderContent = (
     <>
       {!lgUp && (
-        <IconButton onClick={onOpenNav} sx={{ mr: 1 }}>
+        <IconButton
+          onClick={onOpenNav}
+          sx={{ mr: 1 }}
+        >
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
       )}
@@ -41,7 +42,11 @@ export default function Header({ onOpenNav }) {
       <Box sx={{ flexGrow: 1 }} />
 
       <CityAddress />
-      <Stack direction="row" alignItems="center" spacing={1}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        spacing={1}
+      >
         <CartPopover />
         <AccountPopover />
       </Stack>

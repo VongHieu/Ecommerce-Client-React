@@ -77,7 +77,7 @@ export default function LoginView() {
   useEffect(() => () => dispatch(UserActionThunk.cleanMessage()), []);
 
   useEffect(() => {
-    if (success && !loading) {
+    if (message && !loading) {
       Toastify(message, success);
     }
     if (success && user) {
@@ -97,7 +97,11 @@ export default function LoginView() {
         height: 1,
       }}
     >
-      <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
+      <Stack
+        alignItems="center"
+        justifyContent="center"
+        sx={{ height: 1 }}
+      >
         <Card
           sx={{
             p: 5,
@@ -112,12 +116,21 @@ export default function LoginView() {
           }}
         >
           <Logo sx={{ width: 220 }} />
-          <Typography variant="normal" fontSize={24}>
+          <Typography
+            variant="normal"
+            fontSize={24}
+          >
             Đăng nhập
           </Typography>
           <Box width={1}>
-            <form id="form" onSubmit={handleSubmit(submitFormLogin)}>
-              <Stack spacing={3} mt={5}>
+            <form
+              id="form"
+              onSubmit={handleSubmit(submitFormLogin)}
+            >
+              <Stack
+                spacing={3}
+                mt={5}
+              >
                 <Controller
                   name="phone_number"
                   control={control}
@@ -153,7 +166,10 @@ export default function LoginView() {
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
-                            <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                            <IconButton
+                              onClick={() => setShowPassword(!showPassword)}
+                              edge="end"
+                            >
                               <Iconify
                                 sx={{ color: primary.hover }}
                                 icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'}
@@ -167,11 +183,21 @@ export default function LoginView() {
                 />
               </Stack>
 
-              <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="flex-end"
+                sx={{ my: 3 }}
+              >
                 <ForgotPassword to="/forgot-password">Quên mật khẩu?</ForgotPassword>
               </Stack>
 
-              <Stack direction="column" alignItems="center" justifyContent="center" gap={2}>
+              <Stack
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
+                gap={2}
+              >
                 <StyledButton
                   fullWidth
                   size="medium"

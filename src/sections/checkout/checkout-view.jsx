@@ -63,7 +63,7 @@ export default function CheckoutView() {
         </Stack>
         <Box p={2}>
           <Stack
-            boxShadow={styleShadow.dropdown}
+            boxShadow={styleShadow.cards}
             width="100%"
             bgcolor="white"
             px={3}
@@ -118,7 +118,7 @@ export default function CheckoutView() {
           </Stack>
 
           <Stack
-            boxShadow={styleShadow.dropdown}
+            boxShadow={styleShadow.cards}
             width="100%"
             bgcolor="white"
             px={3}
@@ -154,7 +154,7 @@ export default function CheckoutView() {
           </Stack>
 
           <Stack
-            boxShadow={styleShadow.dropdown}
+            boxShadow={styleShadow.cards}
             width="100%"
             bgcolor="white"
             px={3}
@@ -165,7 +165,7 @@ export default function CheckoutView() {
             <Calendar handleGetDate={setValueDeliveryDate} />
           </Stack>
           <Stack
-            boxShadow={styleShadow.dropdown}
+            boxShadow={styleShadow.cards}
             width="100%"
             bgcolor="white"
             px={3}
