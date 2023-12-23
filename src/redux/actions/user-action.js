@@ -36,6 +36,11 @@ const updateUser = createAsyncThunk('USER_UPDATE_USER', async (p) => {
   return data;
 });
 
+const registerUser = createAsyncThunk('USER_REGISTER_USER', async (p) => {
+  const { data } = await userService.registerUser(p);
+  return data;
+});
+
 const cleanMessage = createAsyncThunk('USER_CLEAN_MESSAGE_USER', () => defaultMessage);
 
 export const UserActionThunk = {
@@ -44,4 +49,5 @@ export const UserActionThunk = {
   logoutUser,
   updateUser,
   cleanMessage,
+  registerUser,
 };

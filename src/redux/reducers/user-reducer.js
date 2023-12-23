@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { UserActionThunk } from '../actions/user-action';
 
-const { loginUser, getInfoUser, logoutUser, updateUser, cleanMessage } = UserActionThunk;
+const { loginUser, getInfoUser, logoutUser, updateUser, cleanMessage, registerUser } = UserActionThunk;
 
 const userSlice = createSlice({
   name: 'USER',
@@ -103,6 +103,29 @@ const userSlice = createSlice({
         success: false,
         error: false,
         refresh: false,
+      }))
+      .addCase(registerUser.pending, (state) => ({
+        ...state,
+        loading: true,
+        success: false,
+        error: false,
+        refresh: false,
+      }))
+      .addCase(registerUser.fulfilled, (state, action) => ({
+        ...state,
+        loading: false,
+        success: action.payload?.success,
+        error: false,
+        refresh: false,
+        message: action.payload?.message,
+      }))
+      .addCase(registerUser.rejected, (state, action) => ({
+        ...state,
+        loading: false,
+        success: action.payload?.success,
+        error: true,
+        refresh: false,
+        message: action.error?.message,
       }));
   },
 });
