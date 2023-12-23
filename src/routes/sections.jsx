@@ -12,6 +12,7 @@ export const CheckoutPage = lazy(() => import('src/pages/checkout'));
 export const ProfilePage = lazy(() => import('src/pages/profile'));
 export const ChangePasswordPage = lazy(() => import('src/pages/change-password'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
+export const RegisterPage = lazy(() => import('src/pages/register'));
 
 export default function Router() {
   const routes = useRoutes([
@@ -37,6 +38,10 @@ export default function Router() {
     {
       path: 'login',
       element: <LoginPage />,
+    },
+    {
+      path: 'register',
+      element: <RegisterPage />,
     },
     { path: 'forgot-password', element: <ChangePasswordPage /> },
     {

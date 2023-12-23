@@ -71,7 +71,7 @@ export default function LoginView() {
   };
 
   const handleClick = () => {
-    router.push('/dashboard');
+    router.push('/register');
   };
 
   useEffect(() => () => dispatch(UserActionThunk.cleanMessage()), []);

@@ -10,4 +10,5 @@ export const userService = {
   checkEmailExisted: async (p) => await callApi(`${URI}email`, METHOS_TYPE.post, HEADER_TYPES.json, p),
   checkVerifyCode: async (p) => await callApi(`${URI}check-verify`, METHOS_TYPE.post, HEADER_TYPES.json, p),
   updatePassword: async (p) => await callApi(`${URI}update-password`, METHOS_TYPE.put, HEADER_TYPES.json, p),
+  registerUser: async (p) => await callApi(`${URI}register`, METHOS_TYPE.post, HEADER_TYPES.json, p),
 };
