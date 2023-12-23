@@ -17,6 +17,7 @@ export function customShadows() {
     z24: `0 24px 48px 0 ${transparent}`,
     //
     card: `0 0 2px 0 ${alpha(grey[500], 0.08)}, 0 12px 24px -4px ${alpha(grey[500], 0.08)}`,
+    cards: `rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px`,
     dropdown: `0 0 2px 0 ${alpha(grey[500], 0.24)}, -20px 20px 40px -4px ${alpha(grey[500], 0.24)}`,
     dialog: `-40px 40px 80px -8px ${alpha(common.black, 0.24)}`,
     //

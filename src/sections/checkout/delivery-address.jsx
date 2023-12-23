@@ -48,6 +48,7 @@ const schema = yup
 
 export default function DeliveryAddress({ paymentMethod, deliveryDate }) {
   const { cart, totalAmount } = useSelector((x) => x.carts);
+  const { userAddress } = useSelector((x) => x.city);
   const { user } = useSelector((x) => x.user);
   const [open, setOpen] = useState(false);
   const isTranSport = totalAmount >= defaultLimitTransport;
@@ -71,12 +72,11 @@ export default function DeliveryAddress({ paymentMethod, deliveryDate }) {
   const handleCloseModal = () => setOpen(false);
 
   useEffect(() => {
-    const dataFilter = storage.getCache('userAddress');
-    setValue('delivery_area', dataFilter?.address);
+    setValue('delivery_area', userAddress?.address);
     setValue('payment_methods_id', paymentMethod);
     setValue('delivery_date', deliveryDate);
     setValue('userId', user?.id || null);
-  }, [setValue, open, paymentMethod, deliveryDate]);
+  }, [setValue, open, paymentMethod, deliveryDate, userAddress]);
 
   const handleSubmitOrder = async (value) => {
     let products = [];

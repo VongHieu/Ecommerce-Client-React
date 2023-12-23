@@ -16,6 +16,7 @@ export default function ProductGallery({ thumbnails, avatar }) {
   const thumbnailProduct = thumbnails ? JSON.parse(thumbnails) : [];
   const galleryProduct = [{ file_name: avatar }, ...thumbnailProduct];
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
   return (
     <GalleryImage>
       <AvatarStyle
@@ -72,7 +73,8 @@ const GalleryImage = styled.div`
   }
 
   .product-gallery-thumbnail .swiper-slide-thumb-active {
-    border: ${`2px solid ${primary.red}`};
+    /* border: ${`2px solid ${primary.red}`}; */
+    transform: scale(1.1);
   }
   .product-gallery-thumbnail {
     box-sizing: border-box;
@@ -85,12 +87,10 @@ const AvatarStyle = styled(Swiper)`
 `;
 
 const GalleryStyle = styled(Swiper)`
-  width: auto;
+  max-width: 360px;
+
   .swiper-slide {
     width: 70px;
-    padding: 0 2px;
-  }
-  .swiper-slide img {
-    width: 100%;
+    padding: 0 3px;
   }
 `;
