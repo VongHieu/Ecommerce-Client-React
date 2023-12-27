@@ -12,7 +12,8 @@ import { useRouter } from 'src/routes/hooks';
 const defaultSize = 12;
 
 export default function BlogView() {
-  const { news, total_pages, total_count, current_page } = useSelector((x) => x.news);
+  const { filterPaging } = useSelector((x) => x.news);
+  const { result, total_pages, total_count, current_page } = filterPaging;
   const dispatch = useDispatch();
   const [pageNumber, setPageNumber] = useState(1);
   const router = useRouter();
@@ -44,7 +45,7 @@ export default function BlogView() {
           gridTemplateColumns={'repeat(4,1fr)'}
           gap={2}
         >
-          {news.map((item) => (
+          {result.map((item) => (
             <CardBlog
               news={item}
               key={item.id}
