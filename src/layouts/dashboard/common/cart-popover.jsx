@@ -33,7 +33,7 @@ const themes = createTheme({
   },
 });
 
-const ListProductItem = ({ product }) => (
+export const ListProductItem = ({ product }) => (
   <Box
     sx={{
       display: 'flex',
