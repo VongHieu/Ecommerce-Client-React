@@ -9,7 +9,7 @@ import productReducer from './reducers/product-reducer';
 import cartReducer from './reducers/cart-reducer';
 import userReducer from './reducers/user-reducer';
 import cityReducer from './reducers/city-reducer';
-
+import newsReducer from './reducers/news-reducer';
 const rootPersistConfig = {
   key: 'root',
   storage,
@@ -38,6 +38,7 @@ const rootReducer = combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
   carts: persistReducer(cartPersistConfig, cartReducer),
   city: cityReducer,
+  news: newsReducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
