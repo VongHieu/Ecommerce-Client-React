@@ -12,6 +12,7 @@ export const CheckoutPage = lazy(() => import('src/pages/checkout'));
 export const ProfilePage = lazy(() => import('src/pages/profile'));
 export const ChangePasswordPage = lazy(() => import('src/pages/change-password'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
+export const BlogDetailPage = lazy(() => import('src/pages/blog-detail'));
 export const RegisterPage = lazy(() => import('src/pages/register'));
 
 export default function Router() {
@@ -33,6 +34,7 @@ export default function Router() {
         { path: 'thanh-toan', element: <CheckoutPage /> },
         { path: 'customer/:alias', element: <ProfilePage /> },
         { path: 'tin-tuc', element: <BlogPage /> },
+        { path: 'tin-tuc/:alias', element: <BlogDetailPage /> },
       ],
     },
     {

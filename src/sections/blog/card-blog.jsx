@@ -1,12 +1,15 @@
 import { Box, Card, Stack, Typography } from '@mui/material';
 import Label from 'src/components/label';
+import { useRouter } from 'src/routes/hooks';
 import { customShadows } from 'src/theme/custom-shadows';
 import { common, grey, primary } from 'src/theme/palette';
 import { BACKEND_URL } from 'src/utils/axios-instance';
 import { fDate } from 'src/utils/format-time';
+import styled from 'styled-components';
 
 export default function CardBlog({ news }) {
   const shadow = customShadows();
+  const router = useRouter();
   const renderTag = (
     <Label
       color={common.white}
@@ -23,32 +26,28 @@ export default function CardBlog({ news }) {
     </Label>
   );
 
-  const handleSelectBlog = () => {
-    alert(news.alias);
-  };
-
   return (
     <Card
       sx={{
         display: 'flex',
         flexDirection: 'column',
         maxWidth: 300,
-        height: 370,
+        height: 400,
         backgroundColor: common.white,
         boxShadow: shadow.cards,
         cursor: 'pointer',
       }}
-      onClick={handleSelectBlog}
+      onClick={() => router.push(`${news.alias}`)}
     >
       <Stack
         p={news.image ? 0 : 2}
-        height={200}
+        height={180}
         width={1}
       >
         <img
           src={`${BACKEND_URL}images/news${news.image}`}
           width="100%"
-          height={200}
+          height={180}
           alt={news.name}
         />
       </Stack>
@@ -62,7 +61,6 @@ export default function CardBlog({ news }) {
           display={'flex'}
           flexDirection={'column'}
           justifyContent={'space-between'}
-          gap={0.5}
           mt={1}
           height={'auto'}
           flex={2}
@@ -75,23 +73,13 @@ export default function CardBlog({ news }) {
             >
               {news.name}
             </Typography>
-            <Stack>
-              <Typography
-                variant="normal"
-                fontSize={13}
-                color={grey[700]}
-                noWrap
-                overflow="hidden"
-                textOverflow="ellipsis"
-              >
-                {news.description}
-              </Typography>
-            </Stack>
+            <TextDescription>{news.description}</TextDescription>
           </Stack>
           <Typography
             variant="normal"
             fontSize={12}
             textAlign={'right'}
+            color={grey[600]}
           >
             {fDate(news.created_at)}
           </Typography>
@@ -100,3 +88,13 @@ export default function CardBlog({ news }) {
     </Card>
   );
 }
+
+const TextDescription = styled.p`
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  font-size: 12px;
+  color: ${grey[600]};
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+`;
