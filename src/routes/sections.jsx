@@ -14,6 +14,7 @@ export const ChangePasswordPage = lazy(() => import('src/pages/change-password')
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const BlogDetailPage = lazy(() => import('src/pages/blog-detail'));
 export const RegisterPage = lazy(() => import('src/pages/register'));
+export const IntroductionPage = lazy(() => import('src/pages/introduction'));
 
 export default function Router() {
   const routes = useRoutes([
@@ -35,6 +36,7 @@ export default function Router() {
         { path: 'customer/:alias', element: <ProfilePage /> },
         { path: 'tin-tuc', element: <BlogPage /> },
         { path: 'tin-tuc/:alias', element: <BlogDetailPage /> },
+        { path: 'gioi-thieu', element: <IntroductionPage /> },
       ],
     },
     {
