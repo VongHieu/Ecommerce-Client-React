@@ -1,87 +1,168 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import Slide from '@mui/material/Slide';
-import Input from '@mui/material/Input';
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
+import {
+  TextField,
+  IconButton,
+  Card,
+  List,
+  ListItemButton,
+  ListItem,
+  MenuItem,
+  Stack,
+  Box,
+  Typography,
+} from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-
-import { bgBlur } from 'src/theme/css';
-
 import Iconify from 'src/components/iconify';
+import { useSelector } from 'react-redux';
+import { applyFilter } from './filter-search';
+import styled from 'styled-components';
+import { customShadows } from 'src/theme/custom-shadows';
+import Scrollbar from 'src/components/scrollbar';
+import { BACKEND_URL } from 'src/utils/axios-instance';
+import { fNumber } from 'src/utils/format-number';
+import { Link } from 'react-router-dom';
+import { useRouter } from 'src/routes/hooks';
 
-// ----------------------------------------------------------------------
-
-const HEADER_MOBILE = 64;
-const HEADER_DESKTOP = 92;
-
-const StyledSearchbar = styled('div')(({ theme }) => ({
-  ...bgBlur({
-    color: theme.palette.background.default,
-  }),
-  top: 0,
-  left: 0,
-  zIndex: 99,
-  width: '100%',
-  display: 'flex',
-  position: 'absolute',
-  alignItems: 'center',
-  height: HEADER_MOBILE,
-  padding: theme.spacing(0, 3),
-  boxShadow: theme.customShadows.z8,
-  [theme.breakpoints.up('md')]: {
-    height: HEADER_DESKTOP,
-    padding: theme.spacing(0, 5),
-  },
-}));
-
-// ----------------------------------------------------------------------
+const shadow = customShadows();
 
 export default function Searchbar() {
-  const [open, setOpen] = useState(false);
+  const [textSearch, setTextSearch] = useState('');
+  const { products } = useSelector((x) => x.products);
+  const dataFitler = applyFilter({ inputData: products, filterName: textSearch });
 
-  const handleOpen = () => {
-    setOpen(!open);
-  };
+  useEffect(() => {
+    setTextSearch('');
+  }, [window.location.pathname]);
 
-  const handleClose = () => {
-    setOpen(false);
+  return (
+    <InputSearch>
+      <TextField
+        name="phone_number"
+        placeholder="Tìm kiếm sản phẩm..."
+        fullWidth
+        value={textSearch}
+        onChange={(e) => setTextSearch(e.target.value)}
+        size="small"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <IconButton edge="start">
+                <Iconify icon="eva:search-fill" />
+              </IconButton>
+            </InputAdornment>
+          ),
+          style: {
+            borderRadius: `${dataFitler.length > 0 ? '16px 16px 0 0' : '16px'}`,
+            marginLeft: '15px',
+            fontSize: '13px',
+            lineHeight: 1.5,
+            height: '39px',
+            appearance: 'none',
+            wordSpacing: '-1px',
+            border: 'none',
+            '&:hover': {
+              border: 'none',
+              borderColor: 'transparent',
+            },
+          },
+        }}
+      />
+      <ShowItemFilter $show={dataFitler.length > 0 ? 'block' : 'none'}>
+        <Scrollbar sx={{ height: 'auto', maxHeight: 360 }}>
+          <List sx={{ p: 0.5 }}>
+            {dataFitler.length > 0 &&
+              dataFitler.map((product) => (
+                <ListProductItem
+                  product={product}
+                  key={product.id}
+                />
+              ))}
+          </List>
+        </Scrollbar>
+      </ShowItemFilter>
+    </InputSearch>
+  );
+}
+
+const ListProductItem = ({ product }) => {
+  const router = useRouter();
+  const handleSelectProduct = () => {
+    router.push(`/thong-tin-san-pham/${product.alias}`);
   };
 
   return (
-    <ClickAwayListener onClickAway={handleClose}>
-      <div>
-        {!open && (
-          <IconButton onClick={handleOpen}>
-            <Iconify icon="eva:search-fill" />
-          </IconButton>
-        )}
-
-        <Slide direction="down" in={open} mountOnEnter unmountOnExit>
-          <StyledSearchbar>
-            <Input
-              autoFocus
-              fullWidth
-              disableUnderline
-              placeholder="Search…"
-              startAdornment={
-                <InputAdornment position="start">
-                  <Iconify
-                    icon="eva:search-fill"
-                    sx={{ color: 'text.disabled', width: 20, height: 20 }}
-                  />
-                </InputAdornment>
-              }
-              sx={{ mr: 1, fontWeight: 'fontWeightBold' }}
-            />
-            <Button variant="contained" onClick={handleClose}>
-              Search
-            </Button>
-          </StyledSearchbar>
-        </Slide>
-      </div>
-    </ClickAwayListener>
+    <LinkItemProduct onClick={handleSelectProduct}>
+      <Stack sx={{ width: '60px' }}>
+        <img
+          alt={product.name}
+          src={`${BACKEND_URL}images/products${product.avatar}`}
+          width="100%"
+        />
+      </Stack>
+      <Stack sx={{ width: 1, display: 'flex', flexDirection: 'column' }}>
+        <Typography
+          variant="normal"
+          fontSize={14}
+          textOverflow="ellipsis"
+          whiteSpace="nowrap"
+          overflow="hidden"
+        >
+          {product.name}
+        </Typography>
+        <Stack
+          direction={'row'}
+          gap={2}
+        >
+          <Typography
+            variant="normal"
+            fontSize={13}
+            width="50%"
+          >
+            {`Khối lượng: ${product.weight} Kg`}
+          </Typography>
+          <Typography
+            variant="normal"
+            fontSize={13}
+          >
+            {`Giá bán: ${product.price_sale > 0 ? fNumber(product.price_sale) : fNumber(product.price)} đ`}
+          </Typography>
+        </Stack>
+      </Stack>
+    </LinkItemProduct>
   );
-}
+};
+
+const InputSearch = styled.div`
+  width: 400px;
+  position: relative;
+`;
+
+const ShowItemFilter = styled.div`
+  position: absolute;
+  width: 100%;
+  background-color: white;
+  box-shadow: ${shadow.cards};
+  left: 0;
+  right: 0;
+  color: black;
+  bottom: -100;
+  display: ${(prop) => prop.$show};
+  border-radius: 0 0 16px 16px;
+  margin-left: 15px;
+  z-index: 10000;
+`;
+
+const LinkItemProduct = styled.div`
+  display: flex;
+  font-size: 13px;
+  align-items: center;
+  padding: 6px 10px;
+  gap: 10px;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  &:hover {
+    box-shadow: ${shadow.dropdown};
+  }
+`;

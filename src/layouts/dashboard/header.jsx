@@ -9,15 +9,15 @@ import IconButton from '@mui/material/IconButton';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
+import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 
 import { HEADER } from './config-layout';
 import Searchbar from './common/searchbar';
 import AccountPopover from './common/account-popover';
-import LanguagePopover from './common/language-popover';
-import NotificationsPopover from './common/notifications-popover';
-
-// ----------------------------------------------------------------------
+import CartPopover from './common/cart-popover';
+import NavigationHeader from './common/navigation-header';
+import CityAddress from './common/city-address';
 
 export default function Header({ onOpenNav }) {
   const theme = useTheme();
@@ -27,18 +27,27 @@ export default function Header({ onOpenNav }) {
   const renderContent = (
     <>
       {!lgUp && (
-        <IconButton onClick={onOpenNav} sx={{ mr: 1 }}>
+        <IconButton
+          onClick={onOpenNav}
+          sx={{ mr: 1 }}
+        >
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
       )}
+
+      <Logo />
 
       <Searchbar />
 
       <Box sx={{ flexGrow: 1 }} />
 
-      <Stack direction="row" alignItems="center" spacing={1}>
-        <LanguagePopover />
-        <NotificationsPopover />
+      <CityAddress />
+      <Stack
+        direction="row"
+        alignItems="center"
+        spacing={1}
+      >
+        <CartPopover />
         <AccountPopover />
       </Stack>
     </>
@@ -49,7 +58,7 @@ export default function Header({ onOpenNav }) {
       sx={{
         boxShadow: 'none',
         height: HEADER.H_DESKTOP,
-        backgroundColor: 'red',
+        backgroundColor: 'white',
         width: '100%',
         zIndex: theme.zIndex.appBar + 1,
         transition: theme.transitions.create(['height'], {
@@ -61,7 +70,6 @@ export default function Header({ onOpenNav }) {
         sx={{
           width: '100%',
           height: HEADER.H_DESKTOP,
-          ...lgUp,
         }}
       >
         <Toolbar
@@ -74,6 +82,7 @@ export default function Header({ onOpenNav }) {
           {renderContent}
         </Toolbar>
       </Box>
+      <NavigationHeader />
     </AppBar>
   );
 }

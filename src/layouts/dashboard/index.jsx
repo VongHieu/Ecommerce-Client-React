@@ -2,14 +2,12 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
-
 import Main from './main';
 import Header from './header';
-
-// ----------------------------------------------------------------------
+import Footer from './footer';
+import ScrollTop from './scroll-top';
 
 export default function DashboardLayout({ children }) {
-  // eslint-disable-next-line no-unused-vars
   const [openNav, setOpenNav] = useState(false);
 
   return (
@@ -25,6 +23,8 @@ export default function DashboardLayout({ children }) {
       >
         <Main>{children}</Main>
       </Box>
+      <Footer />
+      <ScrollTop />
     </>
   );
 }

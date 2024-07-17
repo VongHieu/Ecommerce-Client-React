@@ -1,8 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-
-import { NotFoundView } from 'src/sections/error';
-
-// ----------------------------------------------------------------------
+import { NotFoundView } from 'src/sections';
 
 export default function NotFoundPage() {
   return (

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -9,22 +9,31 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-import { account } from 'src/_mock/account';
-
-// ----------------------------------------------------------------------
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'src/routes/hooks';
+import { UserActionThunk } from 'src/redux/actions/user-action';
+import Iconify from 'src/components/iconify';
+import { primary } from 'src/theme/palette';
+import { BACKEND_URL } from 'src/utils/axios-instance';
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
-    icon: 'eva:home-fill',
+    id: 1,
+    label: 'Tài khoản',
+    icon: 'mingcute:user-4-line',
+    url: 'profile',
   },
   {
-    label: 'Profile',
-    icon: 'eva:person-fill',
+    id: 2,
+    label: 'Quản lý đơn hàng',
+    icon: 'quill:paper',
+    url: 'orders',
   },
   {
-    label: 'Settings',
-    icon: 'eva:settings-2-fill',
+    id: 3,
+    label: 'Lịch sử giao dịch',
+    icon: 'tdesign:undertake-transaction',
+    url: 'transaction-history',
   },
 ];
 
@@ -32,14 +41,38 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const { user } = useSelector((x) => x.user);
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleOpen = (event) => {
-    setOpen(event.currentTarget);
+    if (user) setOpen(event.currentTarget);
+    else router.push('/login');
   };
 
   const handleClose = () => {
     setOpen(null);
   };
+
+  const handleClickItem = (url) => {
+    router.push(`/customer/${url}`);
+    setOpen(null);
+  };
+
+  const handleLogoutUser = () => {
+    dispatch(UserActionThunk.logoutUser());
+    setOpen(null);
+    router.push('/');
+  };
+
+  useEffect(() => {
+    if (user) {
+      const param = {
+        id: user.id,
+      };
+      dispatch(UserActionThunk.getInfoUser(param));
+    }
+  }, [dispatch, user?.id]);
 
   return (
     <>
@@ -56,61 +89,91 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={account.photoURL}
-          alt={account.displayName}
+          src={`${user?.avatar ? `${BACKEND_URL}images/avatars/${user.avatar}` : ''}`}
+          alt={user?.full_name}
           sx={{
             width: 36,
             height: 36,
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {account.displayName.charAt(0).toUpperCase()}
+          {user?.full_name.charAt(0).toUpperCase()}
         </Avatar>
       </IconButton>
 
-      <Popover
-        open={!!open}
-        anchorEl={open}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 0,
-            mt: 1,
-            ml: 0.75,
-            width: 200,
-          },
-        }}
-      >
-        <Box sx={{ my: 1.5, px: 2 }}>
-          <Typography variant="subtitle2" noWrap>
-            {account.displayName}
-          </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
-          </Typography>
-        </Box>
-
-        <Divider sx={{ borderStyle: 'dashed' }} />
-
-        {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={handleClose}>
-            {option.label}
-          </MenuItem>
-        ))}
-
-        <Divider sx={{ borderStyle: 'dashed', m: 0 }} />
-
-        <MenuItem
-          disableRipple
-          disableTouchRipple
-          onClick={handleClose}
-          sx={{ typography: 'body2', color: 'error.main', py: 1.5 }}
+      {user && (
+        <Popover
+          open={!!open}
+          anchorEl={open}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          PaperProps={{
+            sx: {
+              p: 0,
+              mt: 1,
+              ml: 0.75,
+              width: 200,
+            },
+          }}
         >
-          Logout
-        </MenuItem>
-      </Popover>
+          <Box sx={{ my: 1.5, px: 2 }}>
+            <Typography
+              variant="subtitle2"
+              noWrap
+            >
+              {user.full_name}
+            </Typography>
+            <Typography
+              variant="normal"
+              fontSize={12}
+              color={primary.colorPrice}
+              noWrap
+            >
+              {user.email}
+            </Typography>
+          </Box>
+
+          <Divider sx={{ borderStyle: 'dashed' }} />
+
+          {MENU_OPTIONS.map((option) => (
+            <MenuItem
+              key={option.id}
+              onClick={() => handleClickItem(option.url)}
+              sx={{
+                display: 'flex',
+                gap: 1,
+                alignItems: 'center',
+                color: primary.colorPrice,
+                py: 1,
+              }}
+            >
+              <Iconify icon={option.icon} />
+              <Typography
+                variant="normal"
+                fontSize={13}
+              >
+                {option.label}
+              </Typography>
+            </MenuItem>
+          ))}
+
+          <MenuItem
+            disableRipple
+            disableTouchRipple
+            onClick={handleLogoutUser}
+            sx={{ display: 'flex', gap: 1, alignItems: 'center', color: primary.colorPrice, py: 1 }}
+          >
+            <Iconify icon="mdi:logout" />
+            <Typography
+              variant="normal"
+              fontSize={13}
+            >
+              Đăng xuất
+            </Typography>
+          </MenuItem>
+        </Popover>
+      )}
     </>
   );
 }
